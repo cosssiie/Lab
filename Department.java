@@ -1,6 +1,6 @@
 //клас кафедри
 
-public class Department extends Faculty{
+public class Department {
 
     private String nameOfDepartment;
    // private String[] students;
