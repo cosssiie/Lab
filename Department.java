@@ -3,10 +3,10 @@
 public class Department {
 
     private String nameOfDepartment;
-   // private String[] students;
-   // private String [] lecturers;
+    private String[] students;
+    private String [] lecturers;
 
-    public Department(String nameOfDepartment) {
+    public Department (String nameOfDepartment,String[] students, String [] lecturers  ) {
         this.nameOfDepartment = nameOfDepartment;
         //this.students = new String[10];
         //this.lecturers = new String[10];

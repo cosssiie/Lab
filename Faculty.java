@@ -1,13 +1,21 @@
 //клас факультету 
-public class Faculty extends University{
+public class Faculty {
 
     private String nameOfFaculty;
 
-    public Faculty(){
+    public Faculty(String nameOfFaculty) {
         this.nameOfFaculty = nameOfFaculty;
-        
     }
 
+    public String getNameOfFaculty() {
+        return nameOfFaculty;
+    }
+
+    public void setNameOfFaculty(String nameOfFaculty) {
+        this.nameOfFaculty = nameOfFaculty;
+    }
+
+/*  методи створення/редагування/видалення кафедри  */
     public void createDepartment(){
 
     }
