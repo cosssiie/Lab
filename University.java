@@ -13,7 +13,7 @@ public class University {
     public void Faculties() {
         System.out.println("Список факультетiв:");
         for (int i = 0; i < size; i++) {
-            System.out.println(faculties[i].getNameOfFaculty());
+            System.out.println((i+1) + ". "+  faculties[i].getNameOfFaculty());
         }
         if (size == 0){
             System.out.println("Наразi ви не додали жоден факультет");
