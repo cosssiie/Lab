@@ -6,9 +6,12 @@ public class Department {
     //назва кафедри
     private String nameOfDepartment;
     //створюємо масив студентів типу Student
-    private Student[] students;
+    private static Student[] students;
+
+
     //створюємо масив викладачів типу Lecturer
-    private Lecturer[] lecturers;
+    private static Lecturer[] lecturers;
+
 
 
     public Department(String nameOfDepartment, int countOfStudents, int countOfLecturers) {
@@ -16,9 +19,37 @@ public class Department {
         this.students = new Student[countOfStudents];
         this.lecturers = new Lecturer[countOfLecturers];
     }
+    public Department(String nameOfDepartment) {
+        this.nameOfDepartment = nameOfDepartment;
+    }
+
+    public String getNameOfDepartment() {
+        return nameOfDepartment;
+    }
+
+    public void setNameOfDepartment(String nameOfDepartment) {
+        this.nameOfDepartment = nameOfDepartment;
+    }
+
+//геттери сеттери масиву викладачі і масиву студентів
+    public static Student[] getStudents() {
+        return students;
+    }
+
+    public static void setStudents(Student[] students) {
+        Department.students = students;
+    }
+
+    public static Lecturer[] getLecturers() {
+        return lecturers;
+    }
+
+    public static void setLecturers(Lecturer[] lecturers) {
+        Department.lecturers = lecturers;
+    }
 
 
-    public void addLecturer(Lecturer oneLecturer) {
+    public static void addLecturer(Lecturer oneLecturer) {
         // Створюємо змінну для перевірки того чи наш масив повний (якщо повний, то далі створюємо масив,
         // у 2 рази більший розміром ніж цей, копіюємо туди елементи і додаємо викладача)
         boolean isFull = true;
@@ -50,15 +81,17 @@ public class Department {
         for (int i = 0; i < lecturers.length; i++) {
             if (lecturers[i] == null) {
                 lecturers[i] = oneLecturer;
-                //Виїодимо з методу після додавання викладача
+                System.out.println("Викладач успішно доданий! ");
+                //Виходимо з методу після додавання викладача
                 return;
             }
         }
+
     }
 
 
     //аналогічно створений  метод addStudent
-    public void addStudent(Student someStudent) {
+    public static void addStudent(Student someStudent) {
         boolean isFull = true;
 
         for (Student student : students) {
@@ -82,10 +115,19 @@ public class Department {
                 }
             }
         }
+        // Додаємо елемент у масив
+        for (int i = 0; i < students.length; i++) {
+            if (students[i] == null) {
+                students[i] = someStudent;
+                System.out.println("Студент успішно доданий! ");
+                //Виходимо з методу після додавання викладача
+                return;
+            }
+        }
 
     }
 
-    public void deleteLecturer(Lecturer lecturerToRemove) {
+    public static void deleteLecturer(Lecturer lecturerToRemove) {
         // Спочатку перевіряємо чи взагалі масив виклалдачів не пустий, щоб нам було що видаляти, якщо стається помилка і масив пустий,
         // то виводимо відпрвідне повідомлення і виходимо з методу за дом=помогою return
         if (lecturers.length == 0) {
@@ -100,7 +142,7 @@ public class Department {
             //((перевіряємо чи комірка не зсилається на null)) і чи посилання на наш об'єкт == посиланню на об'єкт в масиві;
             // (()) - цю умову перевіряємо для того, щоб переконатися, що комірка не пуста,
             // адже наше посилання "lecturerToRemove" може також посилатися на null
-            if (lecturers[i] != null && lecturers[i] == lecturerToRemove) {
+            if (lecturers[i] != null && lecturers[i].equals(lecturerToRemove)) {
                 lecturerFound = true;
                 // Видаляємо об'єкт і перепосилаємо посилання відповідної комірки на null
                 lecturers[i] = null;
@@ -116,13 +158,13 @@ public class Department {
 
         //якщо булева змінна == false, тобто жодна з умов циклу for не виконалась, то виводимо відповідне повідомлення
         if (!lecturerFound) {
-            System.out.println("Такого лектора не існує! ");
+            System.out.println("Такого викладача не існує! ");
         }
     }
 
 
     //за аналогією видалення викладачів дописуємо метод видалення студентів
-    public void deleteStudent(Student studentToRemove) {
+    public static void deleteStudent(Student studentToRemove) {
         if (students.length == 0) {
             System.out.println("Немає кого видаляти, масив студентів порожній! ");
             return;
@@ -131,7 +173,7 @@ public class Department {
         boolean studentFound = false;
 
         for (int i = 0; i < students.length; i++) {
-            if (studentToRemove != null && students[i] == studentToRemove) {
+            if (studentToRemove != null && students[i].equals(studentToRemove)) {
                 students[i] = null;
                 studentFound = true;
 
