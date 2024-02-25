@@ -18,7 +18,7 @@ public class Main {
 
         int choose = DataInput.getInt("Оберiть дiю: ");
 
-        while (choose < 5) {
+        while (choose < 12) {
             switch (choose) {
                 case 1:
 
@@ -61,6 +61,7 @@ public class Main {
                     }
 
                     break;
+
                 case 5:
                     String name = DataInput.getString("Введіть ім'я студента: ");
                     int age = DataInput.getInt("Введіть вік студента: ");
