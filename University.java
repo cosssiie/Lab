@@ -11,12 +11,12 @@ public class University {
 
     /**метод виводу всіх факультетів університету */
     public void Faculties() {
-        System.out.println("Список факультетiв:");
+        System.out.println("\n" +"Список факультетiв:");
         for (int i = 0; i < size; i++) {
             System.out.println((i+1) + ". "+  faculties[i].getNameOfFaculty());
         }
         if (size == 0){
-            System.out.println("Наразi ви не додали жоден факультет");
+            System.out.println("\n" +"Наразi ви не додали жоден факультет");
         }
     }
 
@@ -26,9 +26,9 @@ public class University {
             Faculty faculty = new Faculty(nameOfFaculty);
             faculties[size] = faculty;
             size++;
-            System.out.println("Факультет " + nameOfFaculty + " успiшно створений");
+            System.out.println("\n" +"Факультет " + nameOfFaculty + " успiшно створений");
         } else {
-            System.out.println("Неможливо додати новий факультет. Максимальна кiлькiсть факультетiв досягнута");
+            System.out.println("\n" +"Неможливо додати новий факультет. Максимальна кiлькiсть факультетiв досягнута");
         }
     }
 
@@ -41,12 +41,12 @@ public class University {
                 }
                 size--;
                 found = true;
-                System.out.println("Факультет " + nameOfFaculty + " успiшно видалений");
+                System.out.println("\n" +"Факультет " + nameOfFaculty + " успiшно видалений");
                 break;
             }
         }
         if (!found) {
-            System.out.println("Факультет з назвою " + nameOfFaculty + " не знайдено");
+            System.out.println("\n" +"Факультет з назвою " + nameOfFaculty + " не знайдено");
         }
     }
 
@@ -56,7 +56,7 @@ public class University {
             if (faculties[i].getNameOfFaculty().equals(previousName)) {
                 faculties[i].setNameOfFaculty(newName);
                 found = true;
-                System.out.println("Назву факультету успiшно змiнено з " + previousName + " на " + newName);
+                System.out.println("\n" +"Назву факультету успiшно змiнено з " + previousName + " на " + newName);
                 break;
             }
         }
@@ -64,6 +64,38 @@ public class University {
             System.out.println("Факультет з назвою " + previousName + " не знайдено");
         }
     }
+
+
+    public Faculty findFacultyByName(String nameOfFaculty) {
+        for (int i = 0; i < size; i++) {
+            if (faculties[i].getNameOfFaculty().equals(nameOfFaculty)) {
+                return faculties[i];
+            }
+        }
+        return null; // Якщо факультет з такою назвою не знайдено
+    }
+
+    public void Departments(String nameOfFaculty) {
+        System.out.println("Факультет: " + nameOfFaculty);
+        System.out.println("Кафедри факультету " + nameOfFaculty + ":");
+    
+        Faculty faculty = findFacultyByName(nameOfFaculty);
+        if (faculty != null) {
+            Department[] facultyDepartments = faculty.getDepartments();
+            for (int i = 0; i < facultyDepartments.length; i++) {
+                Department department = facultyDepartments[i];
+                if (department != null) { // Додайте перевірку на null
+                    System.out.println(department.getNameOfDepartment());
+                }
+            }
+            if (facultyDepartments.length == 0) {
+                System.out.println("Наразі на цьому факультеті немає жодних кафедр");
+            }
+        } else {
+            System.out.println("Факультет з назвою " + nameOfFaculty + " не знайдено");
+        }
+    }
+    
     
 
 }
