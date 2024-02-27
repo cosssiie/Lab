@@ -150,7 +150,9 @@ public class Department {
                 // методом зміщення всіх елементів масиву на 1, починаючи цикл з місця null
                 for (int j = i; j < lecturers.length - 1; j++) {
                     lecturers[j] = lecturers[j + 1];
+
                 }
+                lecturers[lecturers.length - 1] = null;
                 //виходимо з циклу після видадення лектора
                 break;
             }
@@ -180,6 +182,9 @@ public class Department {
                 for (int j = i; j < students.length - 1; j++) {
                     students[j] = students[j + 1];
                 }
+
+                students[students.length - 1] = null;
+                break;
             }
         }
 
@@ -225,7 +230,7 @@ public class Department {
         int choice = DataInput.getInt("Які поля викладача ви хочете змінити: " + "\n" +
                 "Щоб змінити <Ім'я> введіть 1" + "\n" +
                 "Щоб змінити <Вік> введіть 2" + "\n" +
-                "Щоб змінити <Посаду> введіть 3" + "\n");
+                "Щоб змінити <Кафедра> введіть 3" + "\n");
         switch (choice) {
             case 1:
                 lecturer.setName(DataInput.getString("Введіть нове ім'я викладача: "));
@@ -234,7 +239,7 @@ public class Department {
                 lecturer.setAge(DataInput.getInt("Введіть новий вік викладача: "));
                 break;
             case 3:
-                lecturer.setPosition(DataInput.getString("Введіть нову посаду викладача: "));
+                lecturer.setPosition(DataInput.getString("Введіть нову кафедру викладача: "));
                 break;
             default:
                 System.out.println("Не існує такої опції ");

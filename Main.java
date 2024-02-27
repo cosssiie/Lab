@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class Main {
+/*
 
+ */
     public static void main(String[] args) throws IOException {
         int maxSize = DataInput.getInt("Скiльки факультетiв матиме унiверситет?");
         University university = new University(maxSize);
@@ -76,7 +78,12 @@ dggsdgg
                     Student student = new Student(name, age, position, grade, course);
                     //додаємо студента в масив студентів
                     Department.addStudent(student);
+                    System.out.println("Виводимо інфорамцію про доданого студента: ");
+                    System.out.println(student);
+                    System.out.println();
+                    System.out.println("Виводимо масив студентів: ");
                     System.out.println(Arrays.toString(Department.getStudents()));
+                    System.out.println();
                     break;
 
                 case 6:
@@ -88,22 +95,43 @@ dggsdgg
 
                     //додаємо викладача в масив викладачів
                     Department.addLecturer(lecturer);
+                    System.out.println("Виводимо інфорамцію про доданого викладача: ");
+                    System.out.println(lecturer);
+
+                    System.out.println();
+
+                    System.out.println("Виводимо масив викладачів: ");
+                    System.out.println(Arrays.toString(Department.getLecturers()));
+                    System.out.println();
                     break;
                 case 7:
                     //видалити студента
                     String nameOfStudent = DataInput.getString("Введіть ім'я студента, якого хочете видалити: ");
                     for (int i = 0; i < Department.getStudents().length; i++) {
                         if (Department.getStudents()[i].getName().equals(nameOfStudent)) {
+
+                            System.out.println("Виводимо інформацію про даного студента: ");
+                            System.out.println(Department.getStudents()[i]);
+                            System.out.println();
                             Department.deleteStudent(Department.getStudents()[i]);
+                            System.out.println("Виводимо масив без цього студента: ");
+                            System.out.println(Arrays.toString(Department.getStudents()));
+                            break;
                         }
                     }
                     break;
                 case 8:
                     //видалити викладача
-                    String nameOfLecturer = DataInput.getString("Введіть ім'я студента, якого хочете видалити: ");
+                    String nameOfLecturer = DataInput.getString("Введіть ім'я викладача, якого хочете видалити: ");
                     for (int i = 0; i < Department.getLecturers().length; i++) {
                         if (Department.getLecturers()[i].getName().equals(nameOfLecturer)) {
+                            System.out.println("Виводимо інформацію про даного викладача: ");
+                            System.out.println(Department.getLecturers()[i]);
+                            System.out.println();
                             Department.deleteLecturer(Department.getLecturers()[i]);
+                            System.out.println("Виводимо масив без цього викладача: ");
+                            System.out.println(Arrays.toString(Department.getLecturers()));
+                            break;
                         }
                     }
                     break;
@@ -112,7 +140,13 @@ dggsdgg
                     nameOfStudent = DataInput.getString("Введіть ім'я студента, інформацію про якого хочете відредагувати: ");
                     for (int i = 0; i < Department.getStudents().length; i++) {
                         if (Department.getStudents()[i].getName().equals(nameOfStudent)) {
+                            System.out.println("Виводимо інформацію про даного студента: ");
+                            System.out.println(Department.getStudents()[i]);
+                            System.out.println();
                             Department.editStudent(Department.getStudents()[i]);
+                            System.out.println("Виводимо відредаговану інформацію про цього студента: ");
+                            System.out.println(Department.getStudents()[i]);
+                            break;
                         }
                     }
 
@@ -122,17 +156,26 @@ dggsdgg
                     nameOfLecturer = DataInput.getString("Введіть ім'я студента, інформацію про якого хочете відредагувати: ");
                     for (int i = 0; i < Department.getLecturers().length; i++) {
                         if (Department.getLecturers()[i].getName().equals(nameOfLecturer)) {
+                            System.out.println("Виводимо інформацію про даного викладача: ");
+                            System.out.println(Department.getLecturers()[i]);
+                            System.out.println();
                             Department.editLecturer(Department.getLecturers()[i]);
+                            System.out.println("Виводимо відредаговану інформацію про цього викладача: ");
+                            System.out.println(Department.getLecturers()[i]);
+                            break;
                         }
                     }
 
                     break;
-
-
-                default:
-
-                    break;
             }
+            System.out.println("*************************************************************************");
+            System.out.println("*   1. ~Додати факультет~                   5 ~Додати студента~         *");
+            System.out.println("*   2. ~Редагувати факультет~               6 ~Додати викладача~        *");
+            System.out.println("*   3. ~Видалити факультет~                 7 ~Видалити студента~       *");
+            System.out.println("*   4. ~Додати кафедру до факультету~       8 ~Видалити викладача~      *");
+            System.out.println("*   11. ~Вихiд~                             9 ~Редагувати студента~     *");
+            System.out.println("*                                          10 ~Редагувати викладача~    *");
+            System.out.println("*************************************************************************");
             choose = DataInput.getInt("Оберiть дiю: ");
 
         }
