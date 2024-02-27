@@ -31,6 +31,9 @@ public class Main {
                     university.Faculties();
 
                     break;
+                    /*
+                    пол
+                     */
 
                 case 2:
                     university.Faculties();
