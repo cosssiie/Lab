@@ -1,4 +1,3 @@
-//клас факультету 
 public class Faculty {
 
     private String nameOfFaculty;
@@ -23,22 +22,8 @@ public class Faculty {
         this.nameOfFaculty = nameOfFaculty;
     }
 
-
-    /**метод виводу кафедр певного факультета */
-    public void Departments() {
-        System.out.println("Факультет: " + nameOfFaculty);
-        System.out.println("Список кафедр:");
-        for (int i = 0; i < size; i++) {
-            System.out.println(departments[i].getNameOfDepartment());
-        }
-        if (size == 0){
-            System.out.println("Наразi ви не додали жодну кафедру");
-        }
-    }
-
-
-    /*  методи створення/редагування/видалення кафедри  */
-    public void createDepartment(String nameOfDepartment, String nameOfFaculty){
+    // Метод для створення кафедри з вказаною назвою
+    public void createDepartment(String nameOfDepartment, String nameOfFaculty) {
         if (size < departments.length) {
             Department department = new Department(nameOfDepartment);
             departments[size] = department;
@@ -49,12 +34,21 @@ public class Faculty {
         }
     }
 
-    public void deleteDepartment(){
-
+    // Метод для редагування кафедри з вказаною попередньою та новою назвою
+    public void editDepartment(String previousName, String newName) {
+        boolean found = false;
+        for (int i = 0; i < size; i++) {
+            if (departments[i].getNameOfDepartment().equals(previousName)) {
+                departments[i].setNameOfDepartment(newName);
+                found = true;
+                System.out.println("Назву кафедри " + previousName + " успiшно змiнено на " + newName);
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("Кафедра з назвою " + previousName + " не знайдена на факультеті " + nameOfFaculty);
+        }
     }
 
-    public void editDepartment(){
-
-    }
-
+    // Інші методи вашого класу...
 }

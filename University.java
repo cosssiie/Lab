@@ -65,5 +65,15 @@ public class University {
         }
     }
 
+    public Faculty findFacultyByName(String nameOfFaculty) {
+        for (int i = 0; i < size; i++) {
+            if (faculties[i].getNameOfFaculty().equals(nameOfFaculty)) {
+                return faculties[i];
+            }
+        }
+        return null; // Якщо факультет з такою назвою не знайдено
+    }
+    
+
 
 }

@@ -13,7 +13,7 @@ public class Main {
 
         int choose = DataInput.getInt("\nОберiть дiю: ");
 
-        while (choose < 12) {
+        while (choose < 13) {
             switch (choose) {
                 case 1:
 
@@ -58,7 +58,7 @@ public class Main {
                     break;
 
                 case 5:
-
+                    //додавння студента
                     String name = DataInput.getString("Введіть ім'я студента: ");
                     int age = DataInput.getInt("Введіть вік студента: ");
                     String position = DataInput.getString("Введіть посаду <студент/летор>: ");
@@ -71,6 +71,7 @@ public class Main {
                     break;
 
                 case 6:
+                    //додавання викладача
                     name = DataInput.getString("Введіть ім'я викладача: ");
                     age = DataInput.getInt("Введіть вік викладача: ");
                     position = DataInput.getString("Введіть посаду <студент/летор>: ");
@@ -118,6 +119,21 @@ public class Main {
                     }
 
                     break;
+
+                case 11:
+
+                    university.Faculties();
+                    String facultyName = DataInput.getString("Введіть назву факультету: ");
+                    faculty = university.findFacultyByName(facultyName);
+                    if (faculty != null) {
+                        String previousDepartmentName = DataInput.getString("Введіть попередню назву кафедри: ");
+                        String newDepartmentName = DataInput.getString("Введіть нову назву кафедри: ");
+                        faculty.editDepartment(previousDepartmentName, newDepartmentName);
+                    } else {
+                        System.out.println("Факультет з назвою " + facultyName + " не знайдено");
+                    }
+                    break;
+
 
 
                 default:
