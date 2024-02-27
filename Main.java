@@ -32,7 +32,7 @@ public class Main {
 
                     break;
                     /*
-                    пол
+
                      */
 
                 case 2:
