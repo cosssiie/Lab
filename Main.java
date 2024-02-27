@@ -1,6 +1,7 @@
 //клас-виконавець
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Main {
 
@@ -60,9 +61,14 @@ public class Main {
                         faculty.createDepartment(nameOfDepartment, nameOfFaculty);
                     }
 
+
+
+                    //hjh
+
                     break;
 
                 case 5:
+
                     String name = DataInput.getString("Введіть ім'я студента: ");
                     int age = DataInput.getInt("Введіть вік студента: ");
                     String position = DataInput.getString("Введіть посаду <студент/летор>: ");
@@ -71,11 +77,12 @@ public class Main {
                     Student student = new Student(name, age, position, grade, course);
                     //додаємо студента в масив студентів
                     Department.addStudent(student);
+                    System.out.println(Arrays.toString(Department.getStudents()));
                     break;
 
                 case 6:
-                    name = DataInput.getString("Введіть ім'я студента: ");
-                    age = DataInput.getInt("Введіть вік студента: ");
+                    name = DataInput.getString("Введіть ім'я викладача: ");
+                    age = DataInput.getInt("Введіть вік викладача: ");
                     position = DataInput.getString("Введіть посаду <студент/летор>: ");
                     String nameOfDepartment = DataInput.getString("Введіть назву кафедри, до якої належить викладач: ");
                     Lecturer lecturer = new Lecturer(name, age, position, nameOfDepartment);

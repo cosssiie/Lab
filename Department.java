@@ -6,11 +6,11 @@ public class Department {
     //назва кафедри
     private String nameOfDepartment;
     //створюємо масив студентів типу Student
-    private static Student[] students;
+    private static Student[] students = new Student[1];
 
 
     //створюємо масив викладачів типу Lecturer
-    private static Lecturer[] lecturers;
+    private static Lecturer[] lecturers = new Lecturer[1];
 
 
 
