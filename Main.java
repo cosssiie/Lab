@@ -60,10 +60,12 @@ public class Main {
                         nameOfFaculty = DataInput.getString("Назва факультету, куди додати кафедру");
                         faculty.createDepartment(nameOfDepartment, nameOfFaculty);
                     }
-//ілліо
 
                     break;
+/*
 
+dggsdgg
+ */
                 case 5:
 
                     String name = DataInput.getString("Введіть ім'я студента: ");
