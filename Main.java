@@ -60,10 +60,12 @@ public class Main {
                         nameOfFaculty = DataInput.getString("Назва факультету, куди додати кафедру");
                         faculty.createDepartment(nameOfDepartment, nameOfFaculty);
                     }
-//ілліо
 
                     break;
+/*
 
+dggsdgg
+ */
                 case 5:
 
                     String name = DataInput.getString("Введіть ім'я студента: ");
@@ -91,7 +93,7 @@ public class Main {
                     //видалити студента
                     String nameOfStudent = DataInput.getString("Введіть ім'я студента, якого хочете видалити: ");
                     for (int i = 0; i < Department.getStudents().length; i++) {
-                        if (Department.getStudents()[i].getName() == nameOfStudent) {
+                        if (Department.getStudents()[i].getName().equals(nameOfStudent)) {
                             Department.deleteStudent(Department.getStudents()[i]);
                         }
                     }
@@ -100,7 +102,7 @@ public class Main {
                     //видалити викладача
                     String nameOfLecturer = DataInput.getString("Введіть ім'я студента, якого хочете видалити: ");
                     for (int i = 0; i < Department.getLecturers().length; i++) {
-                        if (Department.getLecturers()[i].getName() == nameOfLecturer) {
+                        if (Department.getLecturers()[i].getName().equals(nameOfLecturer)) {
                             Department.deleteLecturer(Department.getLecturers()[i]);
                         }
                     }
@@ -109,7 +111,7 @@ public class Main {
                     //редагувати студента
                     nameOfStudent = DataInput.getString("Введіть ім'я студента, інформацію про якого хочете відредагувати: ");
                     for (int i = 0; i < Department.getStudents().length; i++) {
-                        if (Department.getStudents()[i].getName() == nameOfStudent) {
+                        if (Department.getStudents()[i].getName().equals(nameOfStudent)) {
                             Department.editStudent(Department.getStudents()[i]);
                         }
                     }
@@ -119,7 +121,7 @@ public class Main {
                     //редагувати викладача
                     nameOfLecturer = DataInput.getString("Введіть ім'я студента, інформацію про якого хочете відредагувати: ");
                     for (int i = 0; i < Department.getLecturers().length; i++) {
-                        if (Department.getLecturers()[i].getName() == nameOfLecturer) {
+                        if (Department.getLecturers()[i].getName().equals(nameOfLecturer)) {
                             Department.editLecturer(Department.getLecturers()[i]);
                         }
                     }
