@@ -1,14 +1,18 @@
 //клас кафедри
+
 import java.io.IOException;
 
-    public class Department {
-        
-        //назва кафедри
-        private String nameOfDepartment;
-        //створюємо масив студентів типу Student
-        private Student[] students;
-        //створюємо масив викладачів типу Lecturer
-        private Lecturer[] lecturers;
+public class Department {
+    //назва кафедри
+    private String nameOfDepartment;
+    
+    //створюємо масив студентів типу Student
+    private static Student[] students = new Student[1];
+
+    //створюємо масив викладачів типу Lecturer
+    private static Lecturer[] lecturers = new Lecturer[1];
+
+
 
     public Department(String nameOfDepartment, int countOfStudents, int countOfLecturers) {
         this.nameOfDepartment = nameOfDepartment;
@@ -16,7 +20,6 @@ import java.io.IOException;
         this.lecturers = new Lecturer[countOfLecturers];
     }
 
-    
     public Department(String nameOfDepartment) {
         this.nameOfDepartment = nameOfDepartment;
     }
@@ -29,8 +32,25 @@ import java.io.IOException;
         this.nameOfDepartment = nameOfDepartment;
     }
 
+    //геттери сеттери масиву викладачі і масиву студентів
+    public static Student[] getStudents() {
+        return students;
+    }
 
-    public void addLecturer(Lecturer oneLecturer) {
+    public static void setStudents(Student[] students) {
+        Department.students = students;
+    }
+
+    public static Lecturer[] getLecturers() {
+        return lecturers;
+    }
+
+    public static void setLecturers(Lecturer[] lecturers) {
+        Department.lecturers = lecturers;
+    }
+
+
+    public static void addLecturer(Lecturer oneLecturer) {
         // Створюємо змінну для перевірки того чи наш масив повний (якщо повний, то далі створюємо масив,
         // у 2 рази більший розміром ніж цей, копіюємо туди елементи і додаємо викладача)
         boolean isFull = true;
@@ -62,7 +82,8 @@ import java.io.IOException;
         for (int i = 0; i < lecturers.length; i++) {
             if (lecturers[i] == null) {
                 lecturers[i] = oneLecturer;
-                //Виїодимо з методу після додавання викладача
+                System.out.println("Викладач успішно доданий! ");
+                //Виходимо з методу після додавання викладача
                 return;
             }
         }
@@ -70,7 +91,7 @@ import java.io.IOException;
 
 
     //аналогічно створений  метод addStudent
-    public void addStudent(Student someStudent) {
+    public static void addStudent(Student someStudent) {
         boolean isFull = true;
 
         for (Student student : students) {
@@ -94,14 +115,23 @@ import java.io.IOException;
                 }
             }
         }
+        // Додаємо елемент у масив
+        for (int i = 0; i < students.length; i++) {
+            if (students[i] == null) {
+                students[i] = someStudent;
+                System.out.println("Студент успішно доданий! ");
+                //Виходимо з методу після додавання викладача
+                return;
+            }
+        }
 
     }
 
-    public void deleteLecturer(Lecturer lecturerToRemove) {
+    public static void deleteLecturer(Lecturer lecturerToRemove) {
         // Спочатку перевіряємо чи взагалі масив виклалдачів не пустий, щоб нам було що видаляти, якщо стається помилка і масив пустий,
         // то виводимо відпрвідне повідомлення і виходимо з методу за дом=помогою return
         if (lecturers.length == 0) {
-            System.out.println("\n" +"Немає кого видаляти, масив викладачів порожній! ");
+            System.out.println("Немає кого видаляти, масив викладачів порожній! ");
             return;
         }
 
@@ -112,7 +142,7 @@ import java.io.IOException;
             //((перевіряємо чи комірка не зсилається на null)) і чи посилання на наш об'єкт == посиланню на об'єкт в масиві;
             // (()) - цю умову перевіряємо для того, щоб переконатися, що комірка не пуста,
             // адже наше посилання "lecturerToRemove" може також посилатися на null
-            if (lecturers[i] != null && lecturers[i] == lecturerToRemove) {
+            if (lecturers[i] != null && lecturers[i].equals(lecturerToRemove)) {
                 lecturerFound = true;
                 // Видаляємо об'єкт і перепосилаємо посилання відповідної комірки на null
                 lecturers[i] = null;
@@ -128,22 +158,22 @@ import java.io.IOException;
 
         //якщо булева змінна == false, тобто жодна з умов циклу for не виконалась, то виводимо відповідне повідомлення
         if (!lecturerFound) {
-            System.out.println("\n" +"Такого лектора не існує! ");
+            System.out.println("Такого викладача не існує! ");
         }
     }
 
 
     //за аналогією видалення викладачів дописуємо метод видалення студентів
-    public void deleteStudent(Student studentToRemove) {
+    public static void deleteStudent(Student studentToRemove) {
         if (students.length == 0) {
-            System.out.println("\n" +"Немає кого видаляти, масив студентів порожній! ");
+            System.out.println("Немає кого видаляти, масив студентів порожній! ");
             return;
         }
 
         boolean studentFound = false;
 
         for (int i = 0; i < students.length; i++) {
-            if (studentToRemove != null && students[i] == studentToRemove) {
+            if (studentToRemove != null && students[i].equals(studentToRemove)) {
                 students[i] = null;
                 studentFound = true;
 
@@ -154,7 +184,7 @@ import java.io.IOException;
         }
 
         if (!studentFound) {
-            System.out.println("\n" +"Такого студента не існує! ");
+            System.out.println("Такого студента не існує! ");
         }
 
 
@@ -173,18 +203,23 @@ import java.io.IOException;
         switch (choice) {
             case 1:
                 student.setName(DataInput.getString("Введіть нове ім'я: "));
+                System.out.println("Ім'я успішно змінено!");
                 break;
             case 2:
                 student.setAge(DataInput.getInt("Введіть новий вік студента: "));
+                System.out.println("Вік успішно змінено!");
                 break;
             case 3:
                 student.setGrades(DataInput.getInt("Введіть нову середню оцінку студента: "));
+                System.out.println("Бал успішно змінено!");
                 break;
             case 4:
                 student.setPosition(DataInput.getString("Введіть нову посаду студента: "));
+                System.out.println("Посаду успішно змінено!");
                 break;
             case 5:
                 student.setPosition(DataInput.getString("Введіть новий курс студента: "));
+                System.out.println("Курс успішно змінено!");
                 break;
             default:
                 System.out.println("Не існує такої опції ");
@@ -213,8 +248,3 @@ import java.io.IOException;
 
 
 }
-
-
-
-  
-
