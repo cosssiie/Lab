@@ -6,18 +6,18 @@ public class Department {
     //назва кафедри
     private String nameOfDepartment;
     //створюємо масив студентів типу Student
-    private static Student[] students = new Student[1];
+    private static Student[] studentsOdDepartment = new Student[0];
 
 
     //створюємо масив викладачів типу Lecturer
-    private static Lecturer[] lecturers = new Lecturer[1];
+    private static Lecturer[] lecturersOfDepartment = new Lecturer[0];
 
 
 
     public Department(String nameOfDepartment, int countOfStudents, int countOfLecturers) {
         this.nameOfDepartment = nameOfDepartment;
-        this.students = new Student[countOfStudents];
-        this.lecturers = new Lecturer[countOfLecturers];
+        this.studentsOdDepartment = new Student[countOfStudents];
+        this.lecturersOfDepartment = new Lecturer[countOfLecturers];
     }
     public Department(String nameOfDepartment) {
         this.nameOfDepartment = nameOfDepartment;
@@ -32,20 +32,20 @@ public class Department {
     }
 
 //геттери сеттери масиву викладачі і масиву студентів
-    public static Student[] getStudents() {
-        return students;
+    public static Student[] getStudentsOdDepartment() {
+        return studentsOdDepartment;
     }
 
-    public static void setStudents(Student[] students) {
-        Department.students = students;
+    public static void setStudentsOdDepartment(Student[] studentsOdDepartment) {
+        Department.studentsOdDepartment = studentsOdDepartment;
     }
 
-    public static Lecturer[] getLecturers() {
-        return lecturers;
+    public static Lecturer[] getLecturersOfDepartment() {
+        return lecturersOfDepartment;
     }
 
-    public static void setLecturers(Lecturer[] lecturers) {
-        Department.lecturers = lecturers;
+    public static void setLecturersOfDepartment(Lecturer[] lecturersOfDepartment) {
+        Department.lecturersOfDepartment = lecturersOfDepartment;
     }
 
 
@@ -56,7 +56,7 @@ public class Department {
 
         //перебираємо масив посилань на об'єкти типу Lecturer і якщо в комірці відсутнє посилання,
         // то змінюємо змінну isFull на false
-        for (Lecturer lecturer : lecturers) {
+        for (Lecturer lecturer : lecturersOfDepartment) {
             if (lecturer == null) {
                 isFull = false;
                 break;
@@ -66,21 +66,21 @@ public class Department {
         //умова виконується, якщо масив переповнений
         if (isFull) {
             // Створюємо *2 масив
-            Lecturer[] newLecturers = new Lecturer[lecturers.length * 2];
+            Lecturer[] newLecturers = new Lecturer[(lecturersOfDepartment.length +1) * 2];
 
             // Копіюємо елементи зі старого
-            for (int i = 0; i < lecturers.length; i++) {
-                newLecturers[i] = lecturers[i];
+            for (int i = 0; i < lecturersOfDepartment.length; i++) {
+                newLecturers[i] = lecturersOfDepartment[i];
             }
 
             //Оновлюємо посилання
-            lecturers = newLecturers;
+            lecturersOfDepartment = newLecturers;
         }
 
         // Додаємо елемент у масив
-        for (int i = 0; i < lecturers.length; i++) {
-            if (lecturers[i] == null) {
-                lecturers[i] = oneLecturer;
+        for (int i = 0; i < lecturersOfDepartment.length; i++) {
+            if (lecturersOfDepartment[i] == null) {
+                lecturersOfDepartment[i] = oneLecturer;
                 System.out.println("Викладач успішно доданий! ");
                 //Виходимо з методу після додавання викладача
                 return;
@@ -94,7 +94,7 @@ public class Department {
     public static void addStudent(Student someStudent) {
         boolean isFull = true;
 
-        for (Student student : students) {
+        for (Student student : studentsOdDepartment) {
             if (student == null) {
                 isFull = false;
                 //виходимо із циклу
@@ -103,22 +103,22 @@ public class Department {
         }
 
         if (isFull) {
-            Student[] newStudent = new Student[students.length * 2];
-            for (int i = 0; i < students.length; i++) {
-                newStudent[i] = students[i];
+            Student[] newStudent = new Student[(studentsOdDepartment.length +1) * 2];
+            for (int i = 0; i < studentsOdDepartment.length; i++) {
+                newStudent[i] = studentsOdDepartment[i];
             }
-            students = newStudent;
-            for (int i = 0; i < students.length; i++) {
-                if (students[i] == null) {
-                    students[i] = someStudent;
+            studentsOdDepartment = newStudent;
+            for (int i = 0; i < studentsOdDepartment.length; i++) {
+                if (studentsOdDepartment[i] == null) {
+                    studentsOdDepartment[i] = someStudent;
                     return;
                 }
             }
         }
         // Додаємо елемент у масив
-        for (int i = 0; i < students.length; i++) {
-            if (students[i] == null) {
-                students[i] = someStudent;
+        for (int i = 0; i < studentsOdDepartment.length; i++) {
+            if (studentsOdDepartment[i] == null) {
+                studentsOdDepartment[i] = someStudent;
                 System.out.println("Студент успішно доданий! ");
                 //Виходимо з методу після додавання викладача
                 return;
@@ -128,29 +128,26 @@ public class Department {
     }
 
     public static void deleteLecturer(Lecturer lecturerToRemove) {
-        // Спочатку перевіряємо чи взагалі масив виклалдачів не пустий, щоб нам було що видаляти, якщо стається помилка і масив пустий,
-        // то виводимо відпрвідне повідомлення і виходимо з методу за дом=помогою return
-        if (lecturers.length == 0) {
-            System.out.println("Немає кого видаляти, масив викладачів порожній! ");
-            return;
-        }
+
 
         //Перевіряємо булевою змінною чи існує дане посилання на об'єкт в масиві
         boolean lecturerFound = false;
 
-        for (int i = 0; i < lecturers.length; i++) {
+        for (int i = 0; i < lecturersOfDepartment.length; i++) {
             //((перевіряємо чи комірка не зсилається на null)) і чи посилання на наш об'єкт == посиланню на об'єкт в масиві;
             // (()) - цю умову перевіряємо для того, щоб переконатися, що комірка не пуста,
             // адже наше посилання "lecturerToRemove" може також посилатися на null
-            if (lecturers[i] != null && lecturers[i].equals(lecturerToRemove)) {
+            if (lecturersOfDepartment[i] != null && lecturersOfDepartment[i].equals(lecturerToRemove)) {
                 lecturerFound = true;
                 // Видаляємо об'єкт і перепосилаємо посилання відповідної комірки на null
-                lecturers[i] = null;
+                lecturersOfDepartment[i] = null;
                 // просто для краси структури масиву прибираємо пробіл з null посиланням
                 // методом зміщення всіх елементів масиву на 1, починаючи цикл з місця null
-                for (int j = i; j < lecturers.length - 1; j++) {
-                    lecturers[j] = lecturers[j + 1];
+                for (int j = i; j < lecturersOfDepartment.length - 1; j++) {
+                    lecturersOfDepartment[j] = lecturersOfDepartment[j + 1];
+
                 }
+                lecturersOfDepartment[lecturersOfDepartment.length - 1] = null;
                 //виходимо з циклу після видадення лектора
                 break;
             }
@@ -165,21 +162,21 @@ public class Department {
 
     //за аналогією видалення викладачів дописуємо метод видалення студентів
     public static void deleteStudent(Student studentToRemove) {
-        if (students.length == 0) {
-            System.out.println("Немає кого видаляти, масив студентів порожній! ");
-            return;
-        }
+
 
         boolean studentFound = false;
 
-        for (int i = 0; i < students.length; i++) {
-            if (studentToRemove != null && students[i].equals(studentToRemove)) {
-                students[i] = null;
+        for (int i = 0; i < studentsOdDepartment.length; i++) {
+            if (studentToRemove != null && studentsOdDepartment[i].equals(studentToRemove)) {
+                studentsOdDepartment[i] = null;
                 studentFound = true;
 
-                for (int j = i; j < students.length - 1; j++) {
-                    students[j] = students[j + 1];
+                for (int j = i; j < studentsOdDepartment.length - 1; j++) {
+                    studentsOdDepartment[j] = studentsOdDepartment[j + 1];
                 }
+
+                studentsOdDepartment[studentsOdDepartment.length - 1] = null;
+                break;
             }
         }
 
@@ -225,7 +222,7 @@ public class Department {
         int choice = DataInput.getInt("Які поля викладача ви хочете змінити: " + "\n" +
                 "Щоб змінити <Ім'я> введіть 1" + "\n" +
                 "Щоб змінити <Вік> введіть 2" + "\n" +
-                "Щоб змінити <Посаду> введіть 3" + "\n");
+                "Щоб змінити <Кафедра> введіть 3" + "\n");
         switch (choice) {
             case 1:
                 lecturer.setName(DataInput.getString("Введіть нове ім'я викладача: "));
@@ -234,7 +231,7 @@ public class Department {
                 lecturer.setAge(DataInput.getInt("Введіть новий вік викладача: "));
                 break;
             case 3:
-                lecturer.setPosition(DataInput.getString("Введіть нову посаду викладача: "));
+                lecturer.setPosition(DataInput.getString("Введіть нову кафедру викладача: "));
                 break;
             default:
                 System.out.println("Не існує такої опції ");

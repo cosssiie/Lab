@@ -87,7 +87,7 @@ class Student extends Human {
                 "Ім'я: " + getName() + "\n" +
                 "Курс: " + getCourse() + "\n" +
                 "Вік студента: " + getAge() + "\n" +
-                "Середня оцінка: " + getGrades();
+                "Середня оцінка: " + getGrades()  + "\n";
     }
 }
 
@@ -115,7 +115,7 @@ class Lecturer extends Human {
         return  "Позиція: " + getPosition() + "\n" +
                 "Ім'я: " + getName() + "\n" +
                 "Вік викладача: " + getAge() + "\n" +
-                "Посада: " +  getDepartment();
+                "Кафедра: " +  getDepartment()  + "\n";
     }
 
 }
