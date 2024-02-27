@@ -60,6 +60,7 @@ public class Main {
                         faculty.createDepartment(nameOfDepartment, nameOfFaculty);
                     }
 
+
                     break;
 
                 case 5:
