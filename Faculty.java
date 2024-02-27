@@ -2,7 +2,7 @@ public class Faculty {
 
     private String nameOfFaculty;
 
-    private Department[] departments;
+    private static Department[] departments;
     private int size;
 
     public Faculty(String nameOfFaculty) {
@@ -35,20 +35,52 @@ public class Faculty {
     }
 
     // Метод для редагування кафедри з вказаною попередньою та новою назвою
-    public void editDepartment(String previousName, String newName) {
-        boolean found = false;
-        for (int i = 0; i < size; i++) {
-            if (departments[i].getNameOfDepartment().equals(previousName)) {
+    public static void editDepartment(String previousName, String newName) {
+        boolean departmentFound = false;
+    
+        // Шукаємо кафедру за попередньою назвою та редагуємо її, якщо знайдено
+        for (int i = 0; i < departments.length; i++) {
+            if (departments[i] != null && departments[i].getNameOfDepartment().equals(previousName)) {
+                departmentFound = true;
                 departments[i].setNameOfDepartment(newName);
-                found = true;
-                System.out.println("Назву кафедри " + previousName + " успiшно змiнено на " + newName);
+                System.out.println("Назву кафедри \"" + previousName + "\" успішно змінено на \"" + newName + "\"");
                 break;
             }
         }
-        if (!found) {
-            System.out.println("Кафедра з назвою " + previousName + " не знайдена на факультеті " + nameOfFaculty);
+    
+        if (!departmentFound) {
+            System.out.println("Кафедру з назвою \"" + previousName + "\" не знайдено!");
         }
     }
+    
 
-    // Інші методи вашого класу...
+    public static void deleteDepartment(String nameOfDepartment) {
+        // Перевіряємо, чи масив кафедр не є порожнім
+        if (departments.length == 0) {
+            System.out.println("Немає кафедр для видалення, масив кафедр порожній!");
+            return;
+        }
+        boolean departmentFound = false;
+    
+        // Шукаємо кафедру за назвою та видаляємо її, якщо знайдено
+        for (int i = 0; i < departments.length; i++) {
+            if (departments[i] != null && departments[i].getNameOfDepartment().equals(nameOfDepartment)) {
+                departmentFound = true;
+                departments[i] = null;
+    
+                // Переставляємо всі наступні елементи масиву вліво, щоб заповнити порожні місця
+                for (int j = i; j < departments.length - 1; j++) {
+                    departments[j] = departments[j + 1];
+                }
+                break;
+            }
+        }
+        if (departmentFound) {
+            System.out.println("Кафедру \"" + nameOfDepartment + "\" успішно видалено!");
+        } else {
+            System.out.println("Кафедру з назвою \"" + nameOfDepartment + "\" не знайдено!");
+        }
+    }
+    
 }
+
