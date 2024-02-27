@@ -245,6 +245,5 @@ public class Department {
                 System.out.println("Не існує такої опції ");
         }
     }
-
-
+    
 }
