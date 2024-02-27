@@ -60,10 +60,7 @@ public class Main {
                         nameOfFaculty = DataInput.getString("Назва факультету, куди додати кафедру");
                         faculty.createDepartment(nameOfDepartment, nameOfFaculty);
                     }
-
-
-
-                    //hjh
+//ілліо
 
                     break;
 
