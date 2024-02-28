@@ -13,62 +13,56 @@ public class Main {
 
         int choose = DataInput.getInt("\nОберiть дiю: ");
 
-        while (choose < 13) {
+        while (choose < 14) {
             switch (choose) {
                 case 1:
-                //створення факультету
-                    int count = DataInput.getInt("Скiльки хочете додати зараз?");
-                    for (int i = 0; i < count; i++) {
+                    //створення факультету
+
+                    for (int i = 0; i < maxSize; i++) {
                         String nameOfFaculty = DataInput.getString("Введiть назву факультету");
                         university.createFaculty(nameOfFaculty);
                     }
                     university.Faculties();
-
                     break;
 
                 case 2:
-                //редагування факультету
+                    //редагування факультету
                     university.Faculties();
                     String previousName = DataInput.getString("Попередня  назва факультету: ");
                     String newName = DataInput.getString("Нова назва факультету: ");
                     university.editFaculty(previousName, newName);
                     university.Faculties();
-
                     break;
 
                 case 3:
-                //видалення факультету
+                    //видалення факультету
                     university.Faculties();
                     String nameOfFaculty = DataInput.getString("Назва факультету, який хочете видалити");
                     university.deleteFaculty(nameOfFaculty);
                     university.Faculties();
-
                     break;
 
                 case 4:
-                //додавання кафедри
+                    //додавання кафедри
                     int departmentCount = DataInput.getInt("Кiлькiсть кафедр: ");
                     Faculty faculty = new Faculty(departmentCount);
 
-                    count = DataInput.getInt("Скiльки хочете додати зараз?");
-                    for (int i = 0; i < count; i++) {
+                    for (int i = 0; i < departmentCount; i++) {
                         String nameOfDepartment = DataInput.getString("Назва кафедри, яку хочете додати");
                         university.Faculties();
                         nameOfFaculty = DataInput.getString("Назва факультету, куди додати кафедру");
                         faculty.createDepartment(nameOfDepartment, nameOfFaculty);
                     }
-
                     break;
 
                 case 5:
-                //видалення кафедри
+                    //видалення кафедри
                     String nameOfDepartment = DataInput.getString("Назва кафедри, яку хочете видалити");
-                    Faculty.deleteDepartment(nameOfDepartment);
-                        
+                    Faculty.deleteDepartment(nameOfDepartment);    
                     break;
     
                 case 6:
-                //редагування кафедри
+                    //редагування кафедри
                     previousName = DataInput.getString("Попередня назва кафедри: ");
                     newName = DataInput.getString("На яку назву змінити: ");
                     Faculty.editDepartment(previousName, newName);
@@ -76,12 +70,12 @@ public class Main {
                 break;
 
                 case 7:
-                //додавння студента
+                    //додавння студента
                     String name = DataInput.getString("Введіть ім'я студента: ");
                     int age = DataInput.getInt("Введіть вік студента: ");
                     String position = DataInput.getString("Введіть посаду <студент/летор>: ");
                     int grade = DataInput.getInt("Введіть середню оцінку студента: ");
-                    int course = DataInput.getInt("Введіть курс, на якрму навчається студент: ");
+                    int course = DataInput.getInt("Введіть курс, на якому навчається студент: ");
                     Student student = new Student(name, age, position, grade, course);
                     //додаємо студента в масив студентів
                     Department.addStudent(student);
@@ -95,22 +89,31 @@ public class Main {
                     position = DataInput.getString("Введіть посаду <студент/летор>: ");
                     nameOfDepartment = DataInput.getString("Введіть назву кафедри, до якої належить викладач: ");
                     Lecturer lecturer = new Lecturer(name, age, position, nameOfDepartment);
-
                     //додаємо викладача в масив викладачів
                     Department.addLecturer(lecturer);
+                    System.out.println(Arrays.toString(Department.getLecturers()));
                     break;
                 case 9:
                     //видалити студента
                     String nameOfStudent = DataInput.getString("Введіть ім'я студента, якого хочете видалити: ");
+                    if (Department.getStudents().length == 0){
+                        System.out.println("Масив студентів порожній!");
+                        break;
+                    }
                     for (int i = 0; i < Department.getStudents().length; i++) {
                         if (Department.getStudents()[i].getName().equals(nameOfStudent)) {
                             Department.deleteStudent(Department.getStudents()[i]);
                         }
                     }
+            
                     break;
                 case 10:
                     //видалити викладача
                     String nameOfLecturer = DataInput.getString("Введіть ім'я викладача, якого хочете видалити: ");
+                    if (Department.getLecturers().length == 0){
+                        System.out.println("Масив викладачів порожній!");
+                        break;
+                    }
                     for (int i = 0; i < Department.getLecturers().length; i++) {
                         if (Department.getLecturers()[i].getName().equals(nameOfLecturer)) {
                             Department.deleteLecturer(Department.getLecturers()[i]);
@@ -137,6 +140,17 @@ public class Main {
                     }
 
                     break;
+    
+                case 13:
+                    //Вивести кафедри
+                    if (Faculty.departments.equals(null)){
+                        System.out.println("Немає кафедр!");
+                        break;
+                    }
+                    String facultyName = DataInput.getString("Введіть назву факультету: ");
+                    System.out.println("Вивести кафедри факультету " + facultyName);
+                    Faculty.showDepartments(facultyName);
+                break;
 
                 default:
                     System.out.println("Нерозпізнане значення");

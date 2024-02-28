@@ -142,15 +142,23 @@ public class Department {
             //((перевіряємо чи комірка не зсилається на null)) і чи посилання на наш об'єкт == посиланню на об'єкт в масиві;
             // (()) - цю умову перевіряємо для того, щоб переконатися, що комірка не пуста,
             // адже наше посилання "lecturerToRemove" може також посилатися на null
-            if (lecturers[i] != null && lecturers[i].equals(lecturerToRemove)) {
-                lecturerFound = true;
-                // Видаляємо об'єкт і перепосилаємо посилання відповідної комірки на null
-                lecturers[i] = null;
-                // просто для краси структури масиву прибираємо пробіл з null посиланням
+            if (lecturers[i] != null && lecturers[i].getName().equals(lecturerToRemove.getName())) {
                 // методом зміщення всіх елементів масиву на 1, починаючи цикл з місця null
                 for (int j = i; j < lecturers.length - 1; j++) {
                     lecturers[j] = lecturers[j + 1];
                 }
+                // Видаляємо об'єкт і перепосилаємо посилання відповідної комірки на null
+                lecturers[i] = null;
+                // просто для краси структури масиву прибираємо пробіл з null посиланням
+                // Зменшуємо розмір масиву на 1
+                Lecturer[] newLecturers = new Lecturer[lecturers.length - 1];
+                System.arraycopy(lecturers, 0, newLecturers, 0, newLecturers.length);
+                lecturers = newLecturers;
+
+                lecturerFound = true;
+                System.out.println("Викладач " + lecturerToRemove.getName() + " успішно видалений");
+                
+              
                 //виходимо з циклу після видадення лектора
                 break;
             }
@@ -165,30 +173,29 @@ public class Department {
 
     //за аналогією видалення викладачів дописуємо метод видалення студентів
     public static void deleteStudent(Student studentToRemove) {
-        if (students.length == 0) {
-            System.out.println("Немає кого видаляти, масив студентів порожній! ");
-            return;
-        }
 
-        boolean studentFound = false;
-
+        boolean found = false;
         for (int i = 0; i < students.length; i++) {
-            if (studentToRemove != null && students[i].equals(studentToRemove)) {
-                students[i] = null;
-                studentFound = true;
-
+            if (students[i] != null && students[i].getName().equals(studentToRemove.getName())) {
                 for (int j = i; j < students.length - 1; j++) {
                     students[j] = students[j + 1];
                 }
+                // Зменшуємо розмір масиву на 1
+                Student[] newStudents = new Student[students.length - 1];
+                System.arraycopy(students, 0, newStudents, 0, newStudents.length);
+                students = newStudents;
+                found = true;
+                System.out.println("Студент " + studentToRemove.getName() + " успішно видалений");
+                break;
             }
         }
-
-        if (!studentFound) {
-            System.out.println("Такого студента не існує! ");
+        if (!found) {
+            System.out.println("Студента з ім'ям " + studentToRemove.getName() + " не знайдено");
         }
-
-
     }
+    
+    
+    
 
     // Метод, який буде редагувати поля даного нам на вхід студента
     // метод статичний, бо він не повинен мати ніякої прив'язки до якогось класу

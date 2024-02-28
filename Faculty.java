@@ -1,8 +1,8 @@
 public class Faculty {
 
-    private String nameOfFaculty;
+    private static String nameOfFaculty;
 
-    private static Department[] departments;
+    public static Department[] departments;
     private int size;
 
     public Faculty(String nameOfFaculty) {
@@ -14,7 +14,7 @@ public class Faculty {
         size = 0;
     }
 
-    public String getNameOfFaculty() {
+    public static String getNameOfFaculty() {
         return nameOfFaculty;
     }
 
@@ -81,6 +81,20 @@ public class Faculty {
             System.out.println("Кафедру з назвою \"" + nameOfDepartment + "\" не знайдено!");
         }
     }
+
+    public static void showDepartments(String facultyName) {
+        boolean found = false;
+        for (Department department : departments) {
+            if (department != null && getNameOfFaculty().equals(facultyName)) {
+                System.out.println("Кафедра: " + department.getNameOfDepartment());
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("На факультеті " + facultyName + " немає жодної кафедри");
+        }
+    }
+    
     
 }
 

@@ -80,7 +80,7 @@ class Student extends Human {
 
     @Override
     public String toString() {
-        return "Позиція: " + getPosition() + "\n" +
+        return "\nПозиція: " + getPosition() + "\n" +
                 "Ім'я: " + getName() + "\n" +
                 "Курс: " + getCourse() + "\n" +
                 "Вік студента: " + getAge() + "\n" +
@@ -109,7 +109,7 @@ class Lecturer extends Human {
     //виведення інформації про об'єкт "Teacher"
     @Override
     public String toString() {
-        return  "Позиція: " + getPosition() + "\n" +
+        return  "\nПозиція: " + getPosition() + "\n" +
                 "Ім'я: " + getName() + "\n" +
                 "Вік викладача: " + getAge() + "\n" +
                 "Посада: " +  getDepartment();
