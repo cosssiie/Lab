@@ -102,6 +102,7 @@ public class Department {
             }
         }
 
+
         if (isFull) {
             Student[] newStudent = new Student[(studentsOdDepartment.length +1) * 2];
             for (int i = 0; i < studentsOdDepartment.length; i++) {

@@ -12,6 +12,8 @@ public class Faculty {
 
     private Department[] departments;
 
+
+
     private int size;
 
     public Faculty(String nameOfFaculty) {
