@@ -196,6 +196,7 @@ public class Main {
                             break;
                         }
                     }
+
                 case 11:
                     university.Faculties();
                     String facultyName = DataInput.getString("Введіть назву факультету: ");
