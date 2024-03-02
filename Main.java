@@ -51,8 +51,6 @@ public class Main {
                         nameOfFaculty = DataInput.getString("Назва факультету, куди додати кафедру");
                         faculty.createDepartment(nameOfDepartment, nameOfFaculty);
                     }
-
-
                     break;
 
 
@@ -61,12 +59,16 @@ public class Main {
                     //перевірка, чи були створені кафедри
 
                   /*
-                    if (Faculty.getDepartments().length == 0) {
+                    if (university.getFaculties().getDepartments().length == 0) {
                         System.out.println("На жаль, жодної кафедри ще не було додано до списку, створіть спочатку кафедру, а потім додавайте студента!");
                         break;
                     }
 
-                   */
+                    */
+
+
+                    university.Faculties();
+
 
                     String name = DataInput.getString("Введіть ім'я студента: ");
                     int age = DataInput.getInt("Введіть вік студента: ");
@@ -78,8 +80,8 @@ public class Main {
                     int nameOfFacultyWhatINeed = 0;
                     boolean facultyIsPresent = false;
                     while (!facultyIsPresent) {
-                        for (int i = 0; i < new University().getFaculties().length; i++) {
-                            if (studentFaculty.equals(new University().getFaculties()[i].getNameOfFaculty())) {
+                        for (int i = 0; i < university.getFaculties().length; i++) {
+                            if (studentFaculty.equals(university.getFaculties()[i].getNameOfFaculty())) {
                                 nameOfFacultyWhatINeed = i;
                                 facultyIsPresent = true;
                                 break;
@@ -99,8 +101,8 @@ public class Main {
 
 
                     //перевірка, щоб введена нами кількість кафедр вміщалася у кількість кафедр факультету
-                    if (countOdDepartments > University.getFaculties()[nameOfFacultyWhatINeed].getDepartments().length) {
-                        System.out.println("На факультеті існує всього " + University.getFaculties()[nameOfFacultyWhatINeed].getDepartments().length + " кафедр!");
+                    if (countOdDepartments > university.getFaculties()[nameOfFacultyWhatINeed].getDepartments().length) {
+                        System.out.println("На факультеті існує всього " + university.getFaculties()[nameOfFacultyWhatINeed].getDepartments().length + " кафедр!");
                         break;
                     }
 
@@ -110,10 +112,11 @@ public class Main {
                         String f = DataInput.getString("Введіть кафедру, до якої належить студент: ");
                         boolean isBelongsTo = false;
                         while (!isBelongsTo) {
-                            for (int j = 0; j < University.getFaculties()[nameOfFacultyWhatINeed].getDepartments().length; j++) {
-                                if (f.equals(University.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[j].getNameOfDepartment())) {
+                            for (int j = 0; j < university.getFaculties()[nameOfFacultyWhatINeed].getDepartments().length; j++) {
+                                if (f.equals(university.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[j].getNameOfDepartment())) {
                                     student.getArrayOfDepartmentsStudentToBelongs()[i] = f;
                                     isBelongsTo = true;
+                                    break;
                                 }
                             }
                             if (!isBelongsTo) {
@@ -129,7 +132,7 @@ public class Main {
 
                     //додаємо студента в масив студентів кафедр
                     for (int i = 0; i < countOdDepartments; i++) {
-                        University.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i].addStudent(student);
+                        university.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i].addStudent(student);
 
                     }
 
@@ -138,8 +141,8 @@ public class Main {
                     System.out.println();
 
                     for (int i = 0; i < countOdDepartments; i++) {
-                        System.out.println("Виводимо масив студентів кафедри: " + University.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i]);
-                        System.out.println(Arrays.toString(University.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i].getStudentsOdDepartment()));
+                        System.out.println("Виводимо масив студентів кафедри: " + university.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i]);
+                        System.out.println(Arrays.toString(university.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i].getStudentsOdDepartment()));
                         System.out.println();
 
                     }
@@ -147,10 +150,10 @@ public class Main {
 
                     //додаємо студента до студентів факультету
                     for (int i = 0; i < countOdDepartments; i++) {
-                        University.getFaculties()[nameOfFacultyWhatINeed].addStudentsOfDepartmentToFaculty(University.getFaculties()[nameOfFacultyWhatINeed].getStudentsOfFaculty(), University.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i].getStudentsOdDepartment());
+                        university.getFaculties()[nameOfFacultyWhatINeed].addStudentsOfDepartmentToFaculty(university.getFaculties()[nameOfFacultyWhatINeed].getStudentsOfFaculty(), university.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i].getStudentsOdDepartment());
                     }
 
-                    System.out.println("Виводимо масив студентів факультету : " + Arrays.toString(University.getFaculties()[nameOfFacultyWhatINeed].getStudentsOfFaculty()));
+                    System.out.println("Виводимо масив студентів факультету : " + Arrays.toString(university.getFaculties()[nameOfFacultyWhatINeed].getStudentsOfFaculty()));
                     break;
 
 
@@ -192,8 +195,8 @@ public class Main {
 
 
                     //перевірка, щоб введена нами кількість кафедр вміщалася у кількість кафедр факультету
-                    if (countOdDepartments > University.getFaculties()[nameOfFacultyWhatINeed].getDepartments().length) {
-                        System.out.println("На факультеті існує всього " + University.getFaculties()[nameOfFacultyWhatINeed].getDepartments().length + " кафедр!");
+                    if (countOdDepartments > university.getFaculties()[nameOfFacultyWhatINeed].getDepartments().length) {
+                        System.out.println("На факультеті існує всього " + university.getFaculties()[nameOfFacultyWhatINeed].getDepartments().length + " кафедр!");
                         break;
                     }
 
@@ -203,8 +206,8 @@ public class Main {
                         String f = DataInput.getString("Введіть кафедру, до якої належить викладач: ");
                         boolean isBelongsTo = false;
                         while (!isBelongsTo) {
-                            for (int j = 0; j < University.getFaculties()[nameOfFacultyWhatINeed].getDepartments().length; j++) {
-                                if (f.equals(University.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[j].getNameOfDepartment())) {
+                            for (int j = 0; j < university.getFaculties()[nameOfFacultyWhatINeed].getDepartments().length; j++) {
+                                if (f.equals(university.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[j].getNameOfDepartment())) {
                                     lecturer.getArrayOfDepartmentsLecturerToBelongs()[i] = f;
                                     isBelongsTo = true;
                                 }
@@ -221,7 +224,7 @@ public class Main {
 
                     //додаємо викладача в масив викладачів кафедр
                     for (int i = 0; i < countOdDepartments; i++) {
-                        University.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i].addLecturer(lecturer);
+                        university.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i].addLecturer(lecturer);
 
                     }
 
@@ -231,8 +234,8 @@ public class Main {
 
 
                     for (int i = 0; i < countOdDepartments; i++) {
-                        System.out.println("Виводимо масив викладачів кафедри: " + University.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i]);
-                        System.out.println(Arrays.toString(University.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i].getLecturersOfDepartment()));
+                        System.out.println("Виводимо масив викладачів кафедри: " + university.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i]);
+                        System.out.println(Arrays.toString(university.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i].getLecturersOfDepartment()));
                         System.out.println();
 
                     }
@@ -240,10 +243,10 @@ public class Main {
 
                     //додаємо студента до студентів факультету
                     for (int i = 0; i < countOdDepartments; i++) {
-                        University.getFaculties()[nameOfFacultyWhatINeed].addLecturersOfDepartmentToFaculty(University.getFaculties()[nameOfFacultyWhatINeed].getLecturerOfFaculty(), University.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i].getLecturersOfDepartment());
+                        university.getFaculties()[nameOfFacultyWhatINeed].addLecturersOfDepartmentToFaculty(university.getFaculties()[nameOfFacultyWhatINeed].getLecturerOfFaculty(), university.getFaculties()[nameOfFacultyWhatINeed].getDepartments()[i].getLecturersOfDepartment());
                     }
 
-                    System.out.println("Виводимо масив викладачів факультету : " + Arrays.toString(University.getFaculties()[nameOfFacultyWhatINeed].getLecturerOfFaculty()));
+                    System.out.println("Виводимо масив викладачів факультету : " + Arrays.toString(university.getFaculties()[nameOfFacultyWhatINeed].getLecturerOfFaculty()));
                     break;
 
 
@@ -261,13 +264,13 @@ public class Main {
                     String nameOfStudent = DataInput.getString("Введіть ім'я студента, якого хочете видалити: ");
                     String facultyOfStudent = DataInput.getString("Введіть факультет студента, на якому він навчається: ");
                     String departmentOfStudent = DataInput.getString("Введіть кафедру студента, на якій він навчається: ");
-                    for (int i = 0; i < University.getFaculties().length; i++) {
-                        if (University.getFaculties()[i].equals(facultyOfStudent)) {
-                            for (int j = 0; j < University.getFaculties()[i].getDepartments().length; j++) {
-                                if (University.getFaculties()[i].getDepartments()[j].equals(departmentOfStudent)) {
-                                    for (int k = 0; k < University.getFaculties()[i].getDepartments()[j].getStudentsOdDepartment().length; k++) {
-                                        if (University.getFaculties()[i].getDepartments()[j].getStudentsOdDepartment()[k].getName().equals(nameOfStudent)) {
-                                            University.getFaculties()[i].getDepartments()[j].deleteStudent(University.getFaculties()[i].getDepartments()[j].getStudentsOdDepartment()[k]);
+                    for (int i = 0; i < university.getFaculties().length; i++) {
+                        if (university.getFaculties()[i].equals(facultyOfStudent)) {
+                            for (int j = 0; j < university.getFaculties()[i].getDepartments().length; j++) {
+                                if (university.getFaculties()[i].getDepartments()[j].equals(departmentOfStudent)) {
+                                    for (int k = 0; k < university.getFaculties()[i].getDepartments()[j].getStudentsOdDepartment().length; k++) {
+                                        if (university.getFaculties()[i].getDepartments()[j].getStudentsOdDepartment()[k].getName().equals(nameOfStudent)) {
+                                            university.getFaculties()[i].getDepartments()[j].deleteStudent(university.getFaculties()[i].getDepartments()[j].getStudentsOdDepartment()[k]);
                                             for (int l = 0; l < University.getUniversityStudents().length; l++) {
                                                 if (University.getUniversityStudents()[k].getName().equals(nameOfStudent)) {
                                                     University.deleteStudentsOfUniversiyt(University.getUniversityStudents()[k]);
@@ -295,13 +298,13 @@ public class Main {
                     String nameOfLecturer = DataInput.getString("Введіть ім'я фикладача, якого хочете видалити: ");
                     String facultyOfLecturer = DataInput.getString("Введіть факультет викладача: ");
                     String departmentOfLecturer = DataInput.getString("Введіть кафедру викладача: ");
-                    for (int i = 0; i < University.getFaculties().length; i++) {
-                        if (University.getFaculties()[i].equals(facultyOfLecturer)) {
-                            for (int j = 0; j < University.getFaculties()[i].getDepartments().length; j++) {
-                                if (University.getFaculties()[i].getDepartments()[j].equals(departmentOfLecturer)) {
-                                    for (int k = 0; k < University.getFaculties()[i].getDepartments()[j].getLecturersOfDepartment().length; k++) {
-                                        if (University.getFaculties()[i].getDepartments()[j].getLecturersOfDepartment()[k].getName().equals(nameOfLecturer)) {
-                                            University.getFaculties()[i].getDepartments()[j].deleteLecturer(University.getFaculties()[i].getDepartments()[j].getLecturersOfDepartment()[k]);
+                    for (int i = 0; i < university.getFaculties().length; i++) {
+                        if (university.getFaculties()[i].equals(facultyOfLecturer)) {
+                            for (int j = 0; j < university.getFaculties()[i].getDepartments().length; j++) {
+                                if (university.getFaculties()[i].getDepartments()[j].equals(departmentOfLecturer)) {
+                                    for (int k = 0; k < university.getFaculties()[i].getDepartments()[j].getLecturersOfDepartment().length; k++) {
+                                        if (university.getFaculties()[i].getDepartments()[j].getLecturersOfDepartment()[k].getName().equals(nameOfLecturer)) {
+                                            university.getFaculties()[i].getDepartments()[j].deleteLecturer(university.getFaculties()[i].getDepartments()[j].getLecturersOfDepartment()[k]);
                                             for (int l = 0; l < University.getUniversityLecturers().length; l++) {
                                                 if (University.getUniversityLecturers()[k].getName().equals(nameOfLecturer)) {
                                                     University.deleteLecturerOfUniversity(University.getUniversityLecturers()[k]);
@@ -328,13 +331,13 @@ public class Main {
                     nameOfStudent = DataInput.getString("Введіть ім'я студента, якого хочете відредагувати: ");
                     facultyOfStudent = DataInput.getString("Введіть факультет студента, на якому він навчається: ");
                     departmentOfStudent = DataInput.getString("Введіть кафедру студента, на якій він навчається: ");
-                    for (int i = 0; i < University.getFaculties().length; i++) {
-                        if (University.getFaculties()[i].equals(facultyOfStudent)) {
-                            for (int j = 0; j < University.getFaculties()[i].getDepartments().length; j++) {
-                                if (University.getFaculties()[i].getDepartments()[j].equals(departmentOfStudent)) {
-                                    for (int k = 0; k < University.getFaculties()[i].getDepartments()[j].getStudentsOdDepartment().length; k++) {
-                                        if (University.getFaculties()[i].getDepartments()[j].getStudentsOdDepartment()[k].getName().equals(nameOfStudent)) {
-                                            University.getFaculties()[i].getDepartments()[j].editStudent(University.getFaculties()[i].getDepartments()[j].getStudentsOdDepartment()[k]);
+                    for (int i = 0; i < university.getFaculties().length; i++) {
+                        if (university.getFaculties()[i].equals(facultyOfStudent)) {
+                            for (int j = 0; j < university.getFaculties()[i].getDepartments().length; j++) {
+                                if (university.getFaculties()[i].getDepartments()[j].equals(departmentOfStudent)) {
+                                    for (int k = 0; k < university.getFaculties()[i].getDepartments()[j].getStudentsOdDepartment().length; k++) {
+                                        if (university.getFaculties()[i].getDepartments()[j].getStudentsOdDepartment()[k].getName().equals(nameOfStudent)) {
+                                            university.getFaculties()[i].getDepartments()[j].editStudent(university.getFaculties()[i].getDepartments()[j].getStudentsOdDepartment()[k]);
                                             break;
                                         }
                                     }
@@ -356,13 +359,13 @@ public class Main {
                     nameOfLecturer = DataInput.getString("Введіть ім'я фикладача, якого хочете відредагувати: ");
                     facultyOfLecturer = DataInput.getString("Введіть факультет викладача: ");
                     departmentOfLecturer = DataInput.getString("Введіть кафедру викладача: ");
-                    for (int i = 0; i < University.getFaculties().length; i++) {
-                        if (University.getFaculties()[i].equals(facultyOfLecturer)) {
-                            for (int j = 0; j < University.getFaculties()[i].getDepartments().length; j++) {
-                                if (University.getFaculties()[i].getDepartments()[j].equals(departmentOfLecturer)) {
-                                    for (int k = 0; k < University.getFaculties()[i].getDepartments()[j].getLecturersOfDepartment().length; k++) {
-                                        if (University.getFaculties()[i].getDepartments()[j].getLecturersOfDepartment()[k].getName().equals(nameOfLecturer)) {
-                                            University.getFaculties()[i].getDepartments()[j].editLecturer(University.getFaculties()[i].getDepartments()[j].getLecturersOfDepartment()[k]);
+                    for (int i = 0; i < university.getFaculties().length; i++) {
+                        if (university.getFaculties()[i].equals(facultyOfLecturer)) {
+                            for (int j = 0; j < university.getFaculties()[i].getDepartments().length; j++) {
+                                if (university.getFaculties()[i].getDepartments()[j].equals(departmentOfLecturer)) {
+                                    for (int k = 0; k < university.getFaculties()[i].getDepartments()[j].getLecturersOfDepartment().length; k++) {
+                                        if (university.getFaculties()[i].getDepartments()[j].getLecturersOfDepartment()[k].getName().equals(nameOfLecturer)) {
+                                            university.getFaculties()[i].getDepartments()[j].editLecturer(university.getFaculties()[i].getDepartments()[j].getLecturersOfDepartment()[k]);
                                             break;
                                         }
                                     }

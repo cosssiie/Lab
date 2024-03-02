@@ -12,7 +12,7 @@ public class Faculty {
 
 
 
-    private  Department[] departments = new Department[0];
+    private Department[] departments = new Department[0];
     //геттер для кафедри
     public Department[] getDepartments() {
         return departments;

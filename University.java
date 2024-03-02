@@ -17,29 +17,29 @@ public class University {
         return universityStudents;
     }
 
-    public static void setUniversityStudents(Student[] universityStudents) {
-        University.universityStudents = universityStudents;
+    public void setUniversityStudents(Student[] universityStudents) {
+        this.universityStudents = universityStudents;
     }
 
-    public static void setFaculties(Faculty[] faculties) {
-        University.faculties = faculties;
+    public void setFaculties(Faculty[] faculties) {
+        this.faculties = faculties;
     }
 
-    public static int getSize() {
+    public  int getSize() {
         return size;
     }
 
-    public static void setSize(int size) {
-        University.size = size;
+    public  void setSize(int size) {
+        this.size = size;
     }
 
-    private static Faculty[] faculties;
+    private Faculty[] faculties;
 
-    public static Faculty[] getFaculties() {
+    public Faculty[] getFaculties() {
         return faculties;
     }
 
-    private static int size;
+    private int size;
 
     public University() {
 
@@ -64,7 +64,7 @@ public class University {
     }
 
     /*  методи створення/редагування/видалення факультету  */
-    public static void createFaculty(String nameOfFaculty) {
+    public void createFaculty(String nameOfFaculty) {
         if (size < faculties.length) {
             Faculty faculty = new Faculty(nameOfFaculty);
             faculties[size] = faculty;
@@ -117,7 +117,7 @@ public class University {
         return null; // Якщо факультет з такою назвою не знайдено
     }
 
-    public static void addStudentsOfUniversityToFaculty(Student[] facultyStudents) {
+    public static void addStudentsOfFacultyToUniversity(Student[] facultyStudents) {
         boolean isFull = true;
 
         for (Student student : facultyStudents) {
@@ -147,7 +147,7 @@ public class University {
         }
     }
 
-    public static void addLecturersOfUniversityToFaculty(Lecturer[] facultyLecturers) {
+    public static void addLecturersOfFacultyToUniversity(Lecturer[] facultyLecturers) {
         boolean isFull = true;
 
         for (Lecturer lecturer : facultyLecturers) {
