@@ -1,6 +1,9 @@
 import java.util.Arrays;
+import java.util.Scanner;
 
 class Human {
+
+    Human(){}
 
     //ім'я прізвище людини
     private String name;
@@ -9,11 +12,16 @@ class Human {
     private int age;
 
 
+    /*
+    створюємо масив кафедр, до яких належить один студент і також створюємо геттер
+     */
+
+
     //посада людини, по типу: студент, викладач
     private String position;
 
 
-//конструктор створення людини, в подальшому класи наслідуватимуть його
+    //конструктор створення людини, в подальшому класи наслідуватимуть його
     public Human(String name, int age, String position) {
         this.name = name;
         this.age = age;
@@ -28,7 +36,6 @@ class Human {
     public void setName(String name) {
         this.name = name;
     }
-
 
 
     public int getAge() {
@@ -50,15 +57,68 @@ class Human {
 }
 
 class Student extends Human {
+    Student(){
+
+    }
+    public static String[] helper;
     private int grades;
 
 
-    private int course;
+    private String belongsToTheDepartment;
 
-    public Student(String name, int age, String position, int grades, int course) {
-        super(name, age, position);
-        this.grades = grades;
+
+    private String faculty;
+
+    private int course;
+    private String[] arrayOfDepartmentsStudentToBelongs = new String[0];
+
+
+    public String[] getArrayOfDepartmentsStudentToBelongs() {
+        return arrayOfDepartmentsStudentToBelongs;
+    }
+
+    public void setArrayOfDepartmentsStudentToBelongs(String[] arrayOfDepartmentsStudentToBelongs) {
+        this.arrayOfDepartmentsStudentToBelongs = arrayOfDepartmentsStudentToBelongs;
+    }
+
+    public static String[] getHelper() {
+        return helper;
+    }
+
+
+    public static void setHelper(String[] helper) {
+        Student.helper = helper;
+    }
+
+    public String getBelongsToTheDepartment() {
+        return belongsToTheDepartment;
+    }
+
+    public void setBelongsToTheDepartment(String belongsToTheDepartment) {
+        this.belongsToTheDepartment = belongsToTheDepartment;
+    }
+
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
+    }
+
+    public void setCourse(int course) {
         this.course = course;
+    }
+
+
+    public Student(String name, int age, String position, int grades, int course, String faculty, int countOfFaculties) {
+        super(name, age, position);
+        this.setGrades(grades);
+        this.setCourse(course);
+        this.setPosition(position);
+        this.setFaculty(faculty);
+        arrayOfDepartmentsStudentToBelongs = new String[countOfFaculties];
+
+    }
+
+    public String getFaculty() {
+        return faculty;
     }
 
     //геттери і сеттери для курсу студента
@@ -66,9 +126,6 @@ class Student extends Human {
         return course;
     }
 
-    public void setCourse(int course) {
-        this.course = course;
-    }
 
     // геттери і сеттери для оцінок
     public int getGrades() {
@@ -79,6 +136,7 @@ class Student extends Human {
         this.grades = grades;
     }
 
+
     //виведення інформації про об'єкт "Student"
 
     @Override
@@ -87,18 +145,43 @@ class Student extends Human {
                 "Ім'я: " + getName() + "\n" +
                 "Курс: " + getCourse() + "\n" +
                 "Вік студента: " + getAge() + "\n" +
-                "Середня оцінка: " + getGrades()  + "\n";
+                "Середня оцінка: " + getGrades() + "\n" +
+                "Факультет: " + getFaculty() + "\n" +
+                "Кафедра: " + Arrays.toString(getArrayOfDepartmentsStudentToBelongs()) + "\n";
     }
 }
 
 
-
 class Lecturer extends Human {
-    private String department;
+    Lecturer(){
 
-    public Lecturer(String name, int age, String position, String department) {
+    }
+
+    private String[] arrayOfDepartmentsLecturerToBelongs = new String[0];
+    private String department;
+    private String faculty;
+
+    public Lecturer(String name, int age, String position, String faculty, int countOfDepartments) {
         super(name, age, position);
         this.department = department;
+        this.faculty = faculty;
+        arrayOfDepartmentsLecturerToBelongs = new String[countOfDepartments];
+    }
+
+    public String[] getArrayOfDepartmentsLecturerToBelongs() {
+        return arrayOfDepartmentsLecturerToBelongs;
+    }
+
+    public void setArrayOfDepartmentsLecturerToBelongs(String[] arrayOfDepartmentsLecturerToBelongs) {
+        this.arrayOfDepartmentsLecturerToBelongs = arrayOfDepartmentsLecturerToBelongs;
+    }
+
+    public String getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
     }
 
     public String getDepartment() {
@@ -112,10 +195,11 @@ class Lecturer extends Human {
     //виведення інформації про об'єкт "Teacher"
     @Override
     public String toString() {
-        return  "Позиція: " + getPosition() + "\n" +
+        return "Позиція: " + getPosition() + "\n" +
                 "Ім'я: " + getName() + "\n" +
                 "Вік викладача: " + getAge() + "\n" +
-                "Кафедра: " +  getDepartment()  + "\n";
+                "Факультет: " + getFaculty() + "\n" +
+                "Кафедра: " + getDepartment() + "\n";
     }
 
 }

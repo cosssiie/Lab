@@ -3,14 +3,20 @@ import java.util.Arrays;
 public class Faculty {
 
 
-    private static Student[] studentsOfFaculty = new Student[0];
-    private static Lecturer[] lecturerOfFaculty = new Lecturer[0];
-    private static Student[] newStudents = new Student[0];
-    private static Lecturer[] newLecturers = new Lecturer[0];
+    private  Student[] studentsOfFaculty = new Student[0];
+    private Lecturer[] lecturerOfFaculty = new Lecturer[0];
+    private Student[] newStudents = new Student[0];
+    private Lecturer[] newLecturers = new Lecturer[0];
 
     private String nameOfFaculty;
 
-    private Department[] departments;
+
+
+    private  Department[] departments = new Department[0];
+    //геттер для кафедри
+    public Department[] getDepartments() {
+        return departments;
+    }
 
 
 
@@ -25,11 +31,11 @@ public class Faculty {
         size = 0;
     }
 
-    public static Student[] getStudentsOfFaculty() {
+    public Student[] getStudentsOfFaculty() {
         return studentsOfFaculty;
     }
 
-    public static Lecturer[] getLecturerOfFaculty() {
+    public Lecturer[] getLecturerOfFaculty() {
         return lecturerOfFaculty;
     }
 
@@ -70,7 +76,7 @@ public class Faculty {
     }
 
 
-    public static void addStudentsOfDepartmentToFaculty(Student[] studentsOfDepartment, Student[] studentsOfFaculty) {
+    public void addStudentsOfDepartmentToFaculty(Student[] studentsOfDepartment, Student[] studentsOfFaculty) {
         boolean isFull = true;
 
         for (Student student : studentsOfFaculty) {
@@ -85,7 +91,7 @@ public class Faculty {
             for (int i = 0; i < studentsOfDepartment.length; i++) {
                 newStudents[i] = studentsOfDepartment[i];
             }
-            Faculty.studentsOfFaculty = newStudents;
+            this.studentsOfFaculty = newStudents;
 
         }
 
@@ -100,9 +106,11 @@ public class Faculty {
                 }
             }
         }
+
+
     }
 
-    public static void addLectirersOfDepartmentToFaculty(Lecturer[] lecturersOfDepartment, Lecturer[] lecturersOfFaculty) {
+    public void addLecturersOfDepartmentToFaculty(Lecturer[] lecturersOfDepartment, Lecturer[] lecturersOfFaculty) {
         boolean isFull = true;
 
         for (Lecturer lecturer : lecturersOfFaculty) {
@@ -117,7 +125,7 @@ public class Faculty {
             for (int i = 0; i < lecturersOfDepartment.length; i++) {
                 newLecturers[i] = lecturersOfDepartment[i];
             }
-            Faculty.lecturerOfFaculty = newLecturers;
+            this.lecturerOfFaculty = newLecturers;
 
         }
 
@@ -135,7 +143,7 @@ public class Faculty {
     }
 
     //видаляємо студента факультету
-    public static void deleteStudentsOfFaculty(Student someStudent) {
+    public void deleteStudentsOfFaculty(Student someStudent) {
 
         for (int i = 0; i < studentsOfFaculty.length; i++) {
             if (studentsOfFaculty[i].equals(someStudent)) {
@@ -154,7 +162,7 @@ public class Faculty {
 
 
     //видаляємо викладача факультету
-    public static void deleteLecturerOfFaculty(Lecturer someLecturer) {
+    public void deleteLecturerOfFaculty(Lecturer someLecturer) {
         for (int i = 0; i < lecturerOfFaculty.length; i++) {
             if (lecturerOfFaculty[i].equals(someLecturer)) {
                 lecturerOfFaculty[i] = null;
@@ -181,30 +189,7 @@ public class Faculty {
         return false;
     }
 
-    public static void addLecturersOfDepartmentToFaculty(Lecturer[] lecturersOfDepartment, Lecturer[] lecturerOfFaculty) {
-        if (lecturersOfDepartment == null || lecturerOfFaculty == null) {
-            System.out.println("Помилка, масиви пусті");
-            return;
-        }
 
-        // Перевірити чи масив studentsOfFaculty потребує збільшення
-        int requiredLength = lecturerOfFaculty.length + lecturersOfDepartment.length;
-        if (requiredLength > lecturerOfFaculty.length) {
-            lecturerOfFaculty = Arrays.copyOf(lecturerOfFaculty, requiredLength);
-        }
-
-        // Додаємо студентів до факультету
-        for (Lecturer lecturer : lecturersOfDepartment) {
-            if (lecturer != null && !containsLecturer(lecturerOfFaculty, lecturer)) {
-                for (int i = 0; i < lecturerOfFaculty.length; i++) {
-                    if (lecturerOfFaculty[i] == null) {
-                        lecturerOfFaculty[i] = lecturer;
-                        break;
-                    }
-                }
-            }
-        }
-    }
 
     // метод перевіряє чи присутні вже студенти в масиві студентів факультету
     private static boolean containsLecturer(Lecturer[] lecturers, Lecturer target) {

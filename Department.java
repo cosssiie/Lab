@@ -6,11 +6,11 @@ public class Department {
     //назва кафедри
     private String nameOfDepartment;
     //створюємо масив студентів типу Student
-    private static Student[] studentsOdDepartment = new Student[0];
+    private Student[] studentsOdDepartment = new Student[0];
 
 
     //створюємо масив викладачів типу Lecturer
-    private static Lecturer[] lecturersOfDepartment = new Lecturer[0];
+    private Lecturer[] lecturersOfDepartment = new Lecturer[0];
 
 
 
@@ -32,24 +32,24 @@ public class Department {
     }
 
 //геттери сеттери масиву викладачі і масиву студентів
-    public static Student[] getStudentsOdDepartment() {
+    public Student[] getStudentsOdDepartment() {
         return studentsOdDepartment;
     }
 
-    public static void setStudentsOdDepartment(Student[] studentsOdDepartment) {
-        Department.studentsOdDepartment = studentsOdDepartment;
+    public void setStudentsOdDepartment(Student[] studentsOdDepartment) {
+        this.studentsOdDepartment = studentsOdDepartment;
     }
 
-    public static Lecturer[] getLecturersOfDepartment() {
+    public Lecturer[] getLecturersOfDepartment() {
         return lecturersOfDepartment;
     }
 
-    public static void setLecturersOfDepartment(Lecturer[] lecturersOfDepartment) {
-        Department.lecturersOfDepartment = lecturersOfDepartment;
+    public void setLecturersOfDepartment(Lecturer[] lecturersOfDepartment) {
+        this.lecturersOfDepartment = lecturersOfDepartment;
     }
 
 
-    public static void addLecturer(Lecturer oneLecturer) {
+    public void addLecturer(Lecturer oneLecturer) {
         // Створюємо змінну для перевірки того чи наш масив повний (якщо повний, то далі створюємо масив,
         // у 2 рази більший розміром ніж цей, копіюємо туди елементи і додаємо викладача)
         boolean isFull = true;
@@ -91,7 +91,7 @@ public class Department {
 
 
     //аналогічно створений  метод addStudent
-    public static void addStudent(Student someStudent) {
+    public void addStudent(Student someStudent) {
         boolean isFull = true;
 
         for (Student student : studentsOdDepartment) {
@@ -128,7 +128,7 @@ public class Department {
 
     }
 
-    public static void deleteLecturer(Lecturer lecturerToRemove) {
+    public void deleteLecturer(Lecturer lecturerToRemove) {
 
 
         //Перевіряємо булевою змінною чи існує дане посилання на об'єкт в масиві
@@ -162,7 +162,7 @@ public class Department {
 
 
     //за аналогією видалення викладачів дописуємо метод видалення студентів
-    public static void deleteStudent(Student studentToRemove) {
+    public void deleteStudent(Student studentToRemove) {
 
 
         boolean studentFound = false;
@@ -190,13 +190,15 @@ public class Department {
 
     // Метод, який буде редагувати поля даного нам на вхід студента
     // метод статичний, бо він не повинен мати ніякої прив'язки до якогось класу
-    public static void editStudent(Student student) throws IOException {
+    public void editStudent(Student student) throws IOException {
         int choice = DataInput.getInt("Які поля студента ви хочете змінити: " + "\n" +
                 "Щоб змінити <Ім'я> введіть 1" + "\n" +
                 "Щоб змінити <Вік> введіть 2" + "\n" +
                 "Щоб змінити <Середню оцінку> введіть 3" + "\n" +
                 "Щоб змінити <Посаду> введіть 4" + "\n" +
-                "Щоб змінити <Курс> введіть 5" + "\n");
+                "Щоб змінити <Курс> введіть 5" + "\n" +
+                "Щоб змінити <Факультет> введіть 6" + "\n" +
+                "Щоб змінити <Кафедру> введіть 7" + "\n");
 
         switch (choice) {
             case 1:
@@ -219,7 +221,7 @@ public class Department {
         }
     }
 
-    public static void editLecturer(Lecturer lecturer) throws IOException {
+    public void editLecturer(Lecturer lecturer) throws IOException {
         int choice = DataInput.getInt("Які поля викладача ви хочете змінити: " + "\n" +
                 "Щоб змінити <Ім'я> введіть 1" + "\n" +
                 "Щоб змінити <Вік> введіть 2" + "\n" +
