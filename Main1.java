@@ -603,16 +603,15 @@ public class Main1 {
                     String f = DataInput.getString("Введіть назву факультету: ");
                     int pos = 0;
                     for (int i = 0; i < university.getUniversityFaculties().length; i++) {
-                        if(university.getUniversityFaculties()[i]!=null){
-                            if(university.getUniversityFaculties()[i].getNameOfFaculty().equals(f)){
+                        if (university.getUniversityFaculties()[i] != null) {
+                            if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(f)) {
                                 pos = i;
                                 break;
                             }
                         }
                     }
                     Sorting.displayStudentsSortedAlphabeticallyUsingBubbleSort(university.getUniversityFaculties()[pos].getStudentsOfFaculty());
-
-
+                    Sorting.printLecturersSortedAlphabeticallyUsingBubbleSort(university.getUniversityFaculties()[pos].getLecturerOfFaculty());
 
                     System.out.println();
                     System.out.println("*******************************************************************");
@@ -620,10 +619,10 @@ public class Main1 {
                     f = DataInput.getString("Введіть назву кафедри: ");
                     Student1[] student1s = new Student1[university.getUniversityStudents().length];
                     for (int i = 0; i < university.getUniversityStudents().length; i++) {
-                        if(university.getUniversityStudents()[i]!=null){
+                        if (university.getUniversityStudents()[i] != null) {
                             for (int j = 0; j < university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs().length; j++) {
-                                if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j]!=null){
-                                    if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)){
+                                if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j] != null) {
+                                    if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)) {
                                         student1s[i] = university.getUniversityStudents()[i];
                                     }
                                 }
@@ -641,10 +640,10 @@ public class Main1 {
                     f = DataInput.getString("Введіть назву кафедри: ");
                     student1s = new Student1[university.getUniversityStudents().length];
                     for (int i = 0; i < university.getUniversityStudents().length; i++) {
-                        if(university.getUniversityStudents()[i]!=null){
+                        if (university.getUniversityStudents()[i] != null) {
                             for (int j = 0; j < university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs().length; j++) {
-                                if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j]!=null){
-                                    if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)){
+                                if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j] != null) {
+                                    if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)) {
                                         student1s[i] = university.getUniversityStudents()[i];
                                     }
                                 }
@@ -652,7 +651,23 @@ public class Main1 {
                         }
                     }
 
+                    Lecturer1[] lecturer1 = new Lecturer1[university.getUniversityLecturers().length];
+                    for (int i = 0; i < university.getUniversityLecturers().length; i++) {
+                        if (university.getUniversityLecturers()[i] != null) {
+                            for (int j = 0; j < university.getUniversityLecturers()[i].getArrayOfDepartmentsLecturerToBelongs().length; j++) {
+                                if (university.getUniversityLecturers()[i].getArrayOfDepartmentsLecturerToBelongs()[j] != null) {
+                                    if (university.getUniversityLecturers()[i].getArrayOfDepartmentsLecturerToBelongs()[j].equals(f)) {
+                                        lecturer1[i] = university.getUniversityLecturers()[i];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    System.out.println("Студенти: ");
                     Sorting.displayStudentsOfDepartmentSortedAlphabeticallyUsingBubbleSort(student1s);
+                    System.out.println();
+                    System.out.println("Викладачі: ");
+                    Sorting.displayLecturersOfDepartmentSortedAlphabeticallyUsingBubbleSort(lecturer1);
 
 
                     System.out.println();
@@ -661,10 +676,10 @@ public class Main1 {
                     f = DataInput.getString("Введіть назву кафедри: ");
                     student1s = new Student1[university.getUniversityStudents().length];
                     for (int i = 0; i < university.getUniversityStudents().length; i++) {
-                        if(university.getUniversityStudents()[i]!=null){
+                        if (university.getUniversityStudents()[i] != null) {
                             for (int j = 0; j < university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs().length; j++) {
-                                if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j]!=null){
-                                    if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)){
+                                if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j] != null) {
+                                    if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)) {
                                         student1s[i] = university.getUniversityStudents()[i];
                                     }
                                 }
@@ -672,7 +687,7 @@ public class Main1 {
                         }
                     }
                     course = DataInput.getInt("Введіть курс: ");
-                    Sorting.displayStudentsOfSpecifiedCourseUsingBubbleSort(student1s,course);
+                    Sorting.displayStudentsOfSpecifiedCourseUsingBubbleSort(student1s, course);
 
 
                     System.out.println();
@@ -681,10 +696,10 @@ public class Main1 {
                     f = DataInput.getString("Введіть назву кафедри: ");
                     student1s = new Student1[university.getUniversityStudents().length];
                     for (int i = 0; i < university.getUniversityStudents().length; i++) {
-                        if(university.getUniversityStudents()[i]!=null){
+                        if (university.getUniversityStudents()[i] != null) {
                             for (int j = 0; j < university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs().length; j++) {
-                                if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j]!=null){
-                                    if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)){
+                                if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j] != null) {
+                                    if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)) {
                                         student1s[i] = university.getUniversityStudents()[i];
                                     }
                                 }

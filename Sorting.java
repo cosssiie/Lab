@@ -70,11 +70,35 @@ public class Sorting {
             }
         }
 
+
+
         // виводимо масив на екран
         for (Student1 student : students) {
             if (student != null) {
                 System.out.println(student.getName() + " - курс: " + student.getCourse());
             } else {
+            }
+        }
+    }
+
+    public static void printLecturersSortedAlphabeticallyUsingBubbleSort(Lecturer1[] lecturers) {
+
+        int n = lecturers.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (lecturers[j] == null || lecturers[j + 1] == null) {
+                    continue;
+                }
+                if (lecturers[j].getName().compareTo(lecturers[j + 1].getName()) > 0) {
+                    Lecturer1 temp = lecturers[j];
+                    lecturers[j] = lecturers[j + 1];
+                    lecturers[j + 1] = temp;
+                }
+            }
+        }
+        for (Lecturer1 lecturer : lecturers) {
+            if (lecturer != null) {
+                System.out.println("ім'я: " + lecturer.getName());
             }
         }
     }
@@ -129,6 +153,32 @@ public class Sorting {
         for (Student1 student : students) {
             if (student != null) {
                 System.out.println(student.getName() + " - курс: " + student.getCourse());
+            }
+        }
+    }
+
+    public static void displayLecturersOfDepartmentSortedAlphabeticallyUsingBubbleSort(Lecturer1[] lecturer1s) {
+        int n = lecturer1s.length;
+
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+
+                if (lecturer1s[j] == null || lecturer1s[j + 1] == null) {
+                    continue;
+                }
+
+                if (lecturer1s[j].getName().compareTo(lecturer1s[j + 1].getName()) > 0) {
+                    Lecturer1 temp = lecturer1s[j];
+                    lecturer1s[j] = lecturer1s[j + 1];
+                    lecturer1s[j + 1] = temp;
+                }
+            }
+        }
+
+        for (Lecturer1 lecturer1 : lecturer1s) {
+            if (lecturer1 != null) {
+                System.out.println(lecturer1.getName());
             }
         }
     }
