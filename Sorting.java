@@ -38,7 +38,7 @@ public class Sorting {
 
         for (Student1 student : students) {
             if (student != null) {
-                System.out.println(student.getName() + " - Курс: " + student.getCourse());
+                System.out.println(student.getName() + " - Курс: " + student.getCourse() );
             } else {
             }
         }
@@ -70,6 +70,8 @@ public class Sorting {
             }
         }
 
+
+
         // виводимо масив на екран
         for (Student1 student : students) {
             if (student != null) {
@@ -78,6 +80,35 @@ public class Sorting {
             }
         }
     }
+
+    public static void displayLecturersSortedAlphabeticallyUsingBubbleSort(Lecturer1[] lecturers) {
+        int n = lecturers.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+
+                if (lecturers[j] == null || lecturers[j + 1] == null) {
+                    continue;
+                }
+
+                if (lecturers[j].getName().compareTo(lecturers[j + 1].getName()) > 0) {
+                    Lecturer1 temp = lecturers[j];
+                    lecturers[j] = lecturers[j + 1];
+                    lecturers[j + 1] = temp;
+                }
+            }
+        }
+
+
+
+        // виводимо масив на екран
+        for (Lecturer1 lecturer : lecturers) {
+            if (lecturer != null) {
+                System.out.println(lecturer.getName());
+            } else {
+            }
+        }
+    }
+
 
     //сортування 3
     public static void displayStudentsSortedByCourseUsingBubbleSort(Student1[] students) {
@@ -100,7 +131,7 @@ public class Sorting {
 
         for (Student1 student : students) {
             if (student != null) {
-                System.out.println(student.getName() + " - курс: " + student.getCourse());
+                System.out.println(student.getName() + " - курс: " + student.getCourse() );
             }
         }
     }
@@ -128,10 +159,37 @@ public class Sorting {
 
         for (Student1 student : students) {
             if (student != null) {
-                System.out.println(student.getName() + " - курс: " + student.getCourse());
+                System.out.println(student.getName() + " - курс: " + student.getCourse() );
             }
         }
     }
+
+    public static void displayLecturersOfDepartmentSortedAlphabeticallyUsingBubbleSort(Lecturer1[] lecturers) {
+        int n = lecturers.length;
+
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+
+                if (lecturers[j] == null || lecturers[j + 1] == null) {
+                    continue;
+                }
+
+                if (lecturers[j].getName().compareTo(lecturers[j + 1].getName()) > 0) {
+                    Lecturer1 temp = lecturers[j];
+                    lecturers[j] = lecturers[j + 1];
+                    lecturers[j + 1] = temp;
+                }
+            }
+        }
+
+        for (Lecturer1 lecturer : lecturers) {
+            if (lecturer != null) {
+                System.out.println(lecturer.getName() + " - курс: ");
+            }
+        }
+    }
+
 
     //сортування 5
     public static void displayStudentsOfSpecifiedCourseUsingBubbleSort(Student1[] students, int course) {

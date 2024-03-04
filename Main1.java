@@ -2,20 +2,45 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class Main1 {
+    public static int counteStudent = 0;
+    public static int counteLecturer = 0;
+
     public static void main(String[] args) throws IOException {
         Menu.main(args); //вивід меню
+
+
+        /**
+         * Припустимо, що університету вже має заздалегідь 3 створені факультети
+         */
+        System.out.println("Припустимо, що університету вже має заздалегідь 3 створені факультети: ");
         int maxSize = DataInput.getInt("Скiльки факультетiв матиме унiверситет?\n");
         University1 university = new University1(maxSize);
         int choose = DataInput.getInt("Оберiть дiю: ");
         int ID = 0;
 
-        while (choose < 14) {
+        while (choose < 13) {
             switch (choose) {
                 case 1:
+                    int count = 3;
+                    String nameOfFaculty = "ФІ";
+                    university.createFaculty(nameOfFaculty, university);
+                    nameOfFaculty = "ФГН";
+                    university.createFaculty(nameOfFaculty, university);
+                    nameOfFaculty = "ФСНСТ";
+                    university.createFaculty(nameOfFaculty, university);
 
-                    int count = DataInput.getInt("Скiльки хочете додати зараз?");
+                    System.out.println("Інсує вже 3 створених факультети: ");
+                    System.out.println("{");
+                    for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                        if (university.getUniversityFaculties()[i] != null) {
+                            System.out.println(university.getUniversityFaculties()[i].getNameOfFaculty());
+                        }
+                    }
+                    System.out.println("}");
+
+                    count = DataInput.getInt("Скiльки хочете додати до них зараз?");
                     for (int i = 0; i < count; i++) {
-                        String nameOfFaculty = DataInput.getString("Введiть назву факультету");
+                        nameOfFaculty = DataInput.getString("Введiть назву факультету");
                         university.createFaculty(nameOfFaculty, university);
                     }
 
@@ -26,6 +51,7 @@ public class Main1 {
                         }
                     }
                     break;
+
 
                 case 2:
                     if (university.getUniversityFaculties().length == 0) {
@@ -71,7 +97,7 @@ public class Main1 {
                         }
                     }
 
-                    String nameOfFaculty = DataInput.getString("Назва факультету, який хочете видалити");
+                    nameOfFaculty = DataInput.getString("Назва факультету, який хочете видалити");
                     university.deleteFaculty(nameOfFaculty);
                     System.out.println("Виводимо на екран оновлений список факультетів");
                     for (int i = 0; i < university.getUniversityFaculties().length; i++) {
@@ -102,12 +128,20 @@ public class Main1 {
                         nameOfFaculty = DataInput.getString("Назва факультету, куди додати кафедру");
 
                         int nameFaculty = 0;
-                        for (int j = 0; j < university.getUniversityFaculties().length; j++) {
-                            if (university.getUniversityFaculties()[j] != null) {
-                                if (nameOfFaculty.equals(university.getUniversityFaculties()[j].getNameOfFaculty())) {
-                                    nameFaculty = j;
-                                    break;
+                        boolean found = false;
+                        while (!found) {
+                            for (int j = 0; j < university.getUniversityFaculties().length; j++) {
+                                if (university.getUniversityFaculties()[j] != null) {
+                                    if (nameOfFaculty.equals(university.getUniversityFaculties()[j].getNameOfFaculty())) {
+                                        nameFaculty = j;
+                                        found = true;
+                                        break;
+                                    }
                                 }
+                            }
+                            if (!found) {
+                                nameOfFaculty = DataInput.getString("Назва факультету введена неправильно, введіть назву факультету куди додати кафедру");
+
                             }
                         }
 
@@ -152,6 +186,8 @@ public class Main1 {
 
                         }
                     }
+
+
                     /**
                      * ТЕСТИ
                      */
@@ -171,12 +207,2103 @@ public class Main1 {
                     break;
                 //додати студента
                 case 5:
+
                     //перевірка, чи були створені кафедри
 
 
                     if (university.getUniversityDepartments().length == 0) {
                         System.out.println("На жаль, жодної кафедри ще не було додано до списку, створіть спочатку кафедру, а потім додавайте студента!");
                         break;
+                    }
+
+                    if (counteStudent == 0) {
+                        /** 1 студент **/
+                        Student1 student = new Student1("Вікторії Романюк", 18, "студент", 89, 1, "ФІ", 2, ID++);
+
+
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        String f = "математики";
+                        boolean isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "інформатики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 2 студент **/
+
+                        student = new Student1("Ангеліна Скорик", 18, "студент", 91, 1, "ФСНСТ", 2, ID++);
+
+
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "соціології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "математики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+/** 3 студент **/
+
+                        student = new Student1("Олег Майстренко", 17, "студент", 65, 2, "ФГН", 3, ID++);
+
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "філософії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "історії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "англійської мови";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 4 студент **/
+                        student = new Student1("Катерина Леперт", 17, "студент", 42, 3, "ФІ", 2, ID++);
+
+
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "математики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "інформатики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+
+/** 5 студент **/
+                        student = new Student1("Олександра Костецька", 17, "студент", 32, 4, "ФІ", 1, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "інформатики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+
+/** 6 студент **/
+                        student = new Student1("Діана Романенко", 17, "студент", 88, 1, "ФГН", 4, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "філософії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "історії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "політології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "англійської мови";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[3] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+/** 7 студент **/
+                        student = new Student1("Жанна Ломонос", 17, "студент", 45, 2, "ФІ", 2, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "інформатики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "математики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 8 студент **/
+                        student = new Student1("Зара Ілляшенко", 17, "студент", 71, 3, "ФСНСТ", 3, ID++);
+
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "соціології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "політології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "психології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+/** 9 студент **/
+                        student = new Student1("Ірина Бойчук", 17, "студент", 76, 4, "ФСНСТ", 1, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "психології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 10 студент **/
+                        student = new Student1("Інга Мороз", 17, "студент", 81, 1, "ФІ", 3, ID++);
+
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "інформатики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "математики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "соціології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+/** 11 студент **/
+                        student = new Student1("Софія Іваненко", 17, "студент", 61, 2, "ФГН", 2, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "філософії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "історії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 12 студент **/
+                        student = new Student1("Сергій Ачілов", 17, "студент", 95, 3, "ФІ", 2, ID++);
+
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "філософії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "математики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 13 студент **/
+                        student = new Student1("Елеонора Соколова", 17, "студент", 47, 4, "ФГН", 2, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "філософії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "політології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 14 студент **/
+                        student = new Student1("Хельга Кондратенко", 17, "студент", 85, 1, "ФІ", 3, ID++);
+
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "математики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "інформатики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "історії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+/** 15 студент **/
+                        student = new Student1("Фаїна Марченко", 17, "студент", 99, 2, "ФГН", 4, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "філософії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "історії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "англійської мови";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        f = "політології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[3] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 16 студент **/
+                        student = new Student1("Роман Андрієвський", 17, "студент", 100, 3, "ФСНСТ", 2, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "соціології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "філософії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 17 студент **/
+                        student = new Student1("Богдан Соломаха", 17, "студент", 54, 4, "ФСНСТ", 3, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "соціології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "історії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "англійської мови";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 18 студент **/
+                        student = new Student1("Артем Іваненко", 17, "студент", 69, 1, "ФСНСТ", 2, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "математики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "історії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 19 студент **/
+                        student = new Student1("Максим Шприндель", 17, "студент", 86, 2, "ФСНСТ", 1, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "соціології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 20 студент **/
+                        student = new Student1("Іван Козеренко", 17, "студент", 69, 3, "ФГН", 1, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+                        f = "політології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+
+/** 21 студент **/
+                        student = new Student1("Степан Романюк", 17, "студент", 70, 4, "ФГН", 2, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "історії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "соціології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 22 студент **/
+                        student = new Student1("Ігор Сікорський", 17, "студент", 64, 1, "ФГН", 3, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "філософії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "історії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "англійської мови";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 23 студент **/
+                        student = new Student1("Ярослав Пивовар", 17, "студент", 67, 2, "ФГН", 3, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "політології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "математики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "англійської мови";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+
+/** 24 студент **/
+                        student = new Student1("Дмитро Палига", 17, "студент", 84, 3, "ФСНСТ", 3, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "соціології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "історії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "інформатики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** 25 студент **/
+                        student = new Student1("Даніель Буряковський", 17, "студент", 62, 4, "ФІ", 3, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "інформатики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "математики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "англійської мови";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+
+/** 26 студент **/
+                        student = new Student1("Артур Стефановський", 17, "студент", 94, 1, "ФІ", 4, ID++);
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "філософії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "історії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "математики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "англійської мови";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[3] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+
+/** 27 студент **/
+
+                        student = new Student1("Володимир Бойчук", 17, "студент", 69, 3, "ФІ", 4, ID++);
+
+                        //додаємо назви кафедр до масифу кафедр студента, до яких він належить
+
+                        f = "математики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "історії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "інформатики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "соціології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        student.getArrayOfDepartmentsStudentToBelongs()[3] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо студента в масив студентів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < student.getArrayOfDepartmentsStudentToBelongs().length; k++) {
+                                            if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //додаємо студентів кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо студента в масив студентів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(student.getFaculty())) {
+                                    university.addStudentsOfFacultyToUniversity(student, university);
+                                    break;
+                                }
+                            }
+                        }
+
+                        counteStudent++;
+
                     }
 
 
@@ -340,6 +2467,577 @@ public class Main1 {
                     break;
                 //додати викладача
                 case 6:
+
+                    if (university.getUniversityDepartments().length == 0) {
+                        System.out.println("На жаль, жодної кафедри ще не було додано до списку, створіть спочатку кафедру, а потім додавайте викладачів!");
+                        break;
+                    }
+
+
+                    if (counteLecturer == 0) {
+/** Викладач №1 **/
+                        Lecturer1 lecturer = new Lecturer1("Вікторія Василівна Бондар ", 45, "викладач", 3, "ФСНСТ", ID++);
+
+                        //додаємо назви кафедр до масифу кафедр викладачів, до яких він належить
+
+                        String f = "філософії";
+                        boolean isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "соціології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "психології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо викладача в масив викладачів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < lecturer.getArrayOfDepartmentsLecturerToBelongs().length; k++) {
+                                            if (lecturer.getArrayOfDepartmentsLecturerToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(lecturer.getArrayOfDepartmentsLecturerToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addLecturerToDepartment(lecturer, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        //додаємо викладача кафедри в масив викладачів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(lecturer.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addSLecturerOfDepartmentToFaculty(lecturer);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо викладача в масив викладачів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(lecturer.getFaculty())) {
+                                    university.addLecturersOfFacultyToUniversity(lecturer, university);
+                                    break;
+                                }
+                            }
+                        }
+
+
+                        lecturer = new Lecturer1("Ілля Володимирович Силенко ", 30, "викладач", 3, "ФІ", ID++);
+
+                        //додаємо назви кафедр до масифу кафедр викладачів, до яких він належить
+
+                        f = "математики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "інформатики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "філософії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо викладача в масив викладачів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < lecturer.getArrayOfDepartmentsLecturerToBelongs().length; k++) {
+                                            if (lecturer.getArrayOfDepartmentsLecturerToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(lecturer.getArrayOfDepartmentsLecturerToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addLecturerToDepartment(lecturer, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        //додаємо викладача кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(lecturer.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addSLecturerOfDepartmentToFaculty(lecturer);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо викладача в масив викладачів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(lecturer.getFaculty())) {
+                                    university.addLecturersOfFacultyToUniversity(lecturer, university);
+                                    break;
+                                }
+                            }
+                        }
+/** Викладач №3 **/
+                        lecturer = new Lecturer1("Оксана В'ячеславівна Калиновська", 45, "викладач", 3, "ФГН", ID++);
+
+                        //додаємо назви кафедр до масифу кафедр студентів, до яких він належить
+
+                        f = "філософії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "психології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "історії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо викладача в масив викладачів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < lecturer.getArrayOfDepartmentsLecturerToBelongs().length; k++) {
+                                            if (lecturer.getArrayOfDepartmentsLecturerToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(lecturer.getArrayOfDepartmentsLecturerToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addLecturerToDepartment(lecturer, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        //додаємо викладача кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(lecturer.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addSLecturerOfDepartmentToFaculty(lecturer);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо викладача в масив викладачів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(lecturer.getFaculty())) {
+                                    university.addLecturersOfFacultyToUniversity(lecturer, university);
+                                    break;
+                                }
+                            }
+                        }
+
+                        /** Викладач №4 **/
+                        lecturer = new Lecturer1("Марченко Світлана Анатоліївна", 55, "викладач", 2, "ФІ", ID++);
+
+                        //додаємо назви кафедр до масифу кафедр студентів, до яких він належить
+
+                        f = "інформатики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "математики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо викладача в масив викладачів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < lecturer.getArrayOfDepartmentsLecturerToBelongs().length; k++) {
+                                            if (lecturer.getArrayOfDepartmentsLecturerToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(lecturer.getArrayOfDepartmentsLecturerToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addLecturerToDepartment(lecturer, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        //додаємо викладача кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(lecturer.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addSLecturerOfDepartmentToFaculty(lecturer);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо викладача в масив викладачів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(lecturer.getFaculty())) {
+                                    university.addLecturersOfFacultyToUniversity(lecturer, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** Викладач №4 **/
+                        lecturer = new Lecturer1("Елеонора Соколова Павлівна", 40, "викладач", 2, "ФСНСТ", ID++);
+
+                        //додаємо назви кафедр до масифу кафедр студентів, до яких він належить
+
+                        f = "соціології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "психології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        //додаємо викладача в масив викладачів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < lecturer.getArrayOfDepartmentsLecturerToBelongs().length; k++) {
+                                            if (lecturer.getArrayOfDepartmentsLecturerToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(lecturer.getArrayOfDepartmentsLecturerToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addLecturerToDepartment(lecturer, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        //додаємо викладача кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(lecturer.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addSLecturerOfDepartmentToFaculty(lecturer);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо викладача в масив викладачів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(lecturer.getFaculty())) {
+                                    university.addLecturersOfFacultyToUniversity(lecturer, university);
+                                    break;
+                                }
+                            }
+                        }
+
+
+/** Викладач №5 **/
+                        lecturer = new Lecturer1("Босанець Марія Ігнатівна", 60, "викладач", 3, "ФІ", ID++);
+
+                        //додаємо назви кафедр до масифу кафедр студентів, до яких він належить
+
+                        f = "математики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "інформатики";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "філософії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[2] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+
+                        //додаємо викладача в масив викладачів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < lecturer.getArrayOfDepartmentsLecturerToBelongs().length; k++) {
+                                            if (lecturer.getArrayOfDepartmentsLecturerToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(lecturer.getArrayOfDepartmentsLecturerToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addLecturerToDepartment(lecturer, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        //додаємо викладача кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(lecturer.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addSLecturerOfDepartmentToFaculty(lecturer);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо викладача в масив викладачів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(lecturer.getFaculty())) {
+                                    university.addLecturersOfFacultyToUniversity(lecturer, university);
+                                    break;
+                                }
+                            }
+                        }
+
+/** Викладач №6 **/
+                        lecturer = new Lecturer1("Сергій Сергійович Артикуца", 78, "викладач", 2, "ФСНСТ", ID++);
+
+                        //додаємо назви кафедр до масифу кафедр студентів, до яких він належить
+
+                        f = "соціології";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[0] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        f = "філософії";
+                        isBelongsTo = false;
+                        while (!isBelongsTo) {
+                            for (int j = 0; j < university.getUniversityDepartments().length; j++) {
+                                if (university.getUniversityDepartments()[j] != null) {
+                                    if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
+                                        lecturer.getArrayOfDepartmentsLecturerToBelongs()[1] = f;
+                                        isBelongsTo = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        //додаємо викладача в масив викладачів кафедр
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+                                    if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+                                        for (int k = 0; k < lecturer.getArrayOfDepartmentsLecturerToBelongs().length; k++) {
+                                            if (lecturer.getArrayOfDepartmentsLecturerToBelongs()[k] != null) {
+                                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(lecturer.getArrayOfDepartmentsLecturerToBelongs()[k])) {
+                                                    university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addLecturerToDepartment(lecturer, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        //додаємо викладача кафедри в масив студентів факультету
+                        for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+                            if (university.getUniversityFaculties()[k] != null) {
+                                if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(lecturer.getFaculty())) {
+                                    university.getUniversityFaculties()[k].addSLecturerOfDepartmentToFaculty(lecturer);
+                                    break;
+                                }
+                            }
+                        }
+
+                        //додаємо викладача в масив викладачів університету
+                        for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+                            if (university.getUniversityFaculties()[i] != null) {
+                                if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(lecturer.getFaculty())) {
+                                    university.addLecturersOfFacultyToUniversity(lecturer, university);
+                                    break;
+                                }
+                            }
+                        }
+
+                        counteLecturer++;
+
+                    }
+
+
                     name = DataInput.getString("Введіть ім'я викладача: ");
                     age = DataInput.getInt("Введіть вік викладача: ");
                     position = DataInput.getString("Введіть посаду <студент/лектор>: ");
@@ -440,11 +3138,11 @@ public class Main1 {
                     }
 
 
-                    System.out.println("Виводимо інфорамцію про доданого студента: ");
+                    System.out.println("Виводимо інфорамцію про доданого викладача: ");
                     System.out.println(lecturer);
                     System.out.println();
 
-                    //додаємо студентів кафедри в масив студентів факультету
+                    //додаємо викладачів кафедри в масив викладачів факультету
                     for (int k = 0; k < university.getUniversityFaculties().length; k++) {
                         if (university.getUniversityFaculties()[k] != null) {
                             if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(lecturerFaculty)) {
@@ -603,15 +3301,19 @@ public class Main1 {
                     String f = DataInput.getString("Введіть назву факультету: ");
                     int pos = 0;
                     for (int i = 0; i < university.getUniversityFaculties().length; i++) {
-                        if(university.getUniversityFaculties()[i]!=null){
-                            if(university.getUniversityFaculties()[i].getNameOfFaculty().equals(f)){
+                        if (university.getUniversityFaculties()[i] != null) {
+                            if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(f)) {
                                 pos = i;
                                 break;
                             }
                         }
                     }
+                    System.out.println("Виводимо викладачів: ");
                     Sorting.displayStudentsSortedAlphabeticallyUsingBubbleSort(university.getUniversityFaculties()[pos].getStudentsOfFaculty());
-
+                    System.out.println();
+                    System.out.println("Виводимо студентів: ");
+                    Sorting.displayLecturersSortedAlphabeticallyUsingBubbleSort(university.getUniversityFaculties()[pos].getLecturerOfFaculty());
+                    System.out.println();
 
 
                     System.out.println();
@@ -620,10 +3322,10 @@ public class Main1 {
                     f = DataInput.getString("Введіть назву кафедри: ");
                     Student1[] student1s = new Student1[university.getUniversityStudents().length];
                     for (int i = 0; i < university.getUniversityStudents().length; i++) {
-                        if(university.getUniversityStudents()[i]!=null){
+                        if (university.getUniversityStudents()[i] != null) {
                             for (int j = 0; j < university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs().length; j++) {
-                                if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j]!=null){
-                                    if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)){
+                                if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j] != null) {
+                                    if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)) {
                                         student1s[i] = university.getUniversityStudents()[i];
                                     }
                                 }
@@ -641,10 +3343,10 @@ public class Main1 {
                     f = DataInput.getString("Введіть назву кафедри: ");
                     student1s = new Student1[university.getUniversityStudents().length];
                     for (int i = 0; i < university.getUniversityStudents().length; i++) {
-                        if(university.getUniversityStudents()[i]!=null){
+                        if (university.getUniversityStudents()[i] != null) {
                             for (int j = 0; j < university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs().length; j++) {
-                                if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j]!=null){
-                                    if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)){
+                                if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j] != null) {
+                                    if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)) {
                                         student1s[i] = university.getUniversityStudents()[i];
                                     }
                                 }
@@ -652,7 +3354,23 @@ public class Main1 {
                         }
                     }
 
+                    Lecturer1[] lecturer1 = new Lecturer1[university.getUniversityLecturers().length];
+                    for (int i = 0; i < university.getUniversityLecturers().length; i++) {
+                        if (university.getUniversityLecturers()[i] != null) {
+                            for (int j = 0; j < university.getUniversityLecturers()[i].getArrayOfDepartmentsLecturerToBelongs().length; j++) {
+                                if (university.getUniversityLecturers()[i].getArrayOfDepartmentsLecturerToBelongs()[j] != null) {
+                                    if (university.getUniversityLecturers()[i].getArrayOfDepartmentsLecturerToBelongs()[j].equals(f)) {
+                                        lecturer1[i] = university.getUniversityLecturers()[i];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    System.out.println("Студенти: ");
                     Sorting.displayStudentsOfDepartmentSortedAlphabeticallyUsingBubbleSort(student1s);
+                    System.out.println();
+                    System.out.println("Викладачі: ");
+                    Sorting.displayLecturersOfDepartmentSortedAlphabeticallyUsingBubbleSort(lecturer1);
 
 
                     System.out.println();
@@ -661,10 +3379,10 @@ public class Main1 {
                     f = DataInput.getString("Введіть назву кафедри: ");
                     student1s = new Student1[university.getUniversityStudents().length];
                     for (int i = 0; i < university.getUniversityStudents().length; i++) {
-                        if(university.getUniversityStudents()[i]!=null){
+                        if (university.getUniversityStudents()[i] != null) {
                             for (int j = 0; j < university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs().length; j++) {
-                                if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j]!=null){
-                                    if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)){
+                                if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j] != null) {
+                                    if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)) {
                                         student1s[i] = university.getUniversityStudents()[i];
                                     }
                                 }
@@ -672,7 +3390,10 @@ public class Main1 {
                         }
                     }
                     course = DataInput.getInt("Введіть курс: ");
-                    Sorting.displayStudentsOfSpecifiedCourseUsingBubbleSort(student1s,course);
+                    while (choose<0){
+                        course = DataInput.getInt("Введіть курс: ");
+                    }
+                    Sorting.displayStudentsOfSpecifiedCourseUsingBubbleSort(student1s, course);
 
 
                     System.out.println();
@@ -681,10 +3402,10 @@ public class Main1 {
                     f = DataInput.getString("Введіть назву кафедри: ");
                     student1s = new Student1[university.getUniversityStudents().length];
                     for (int i = 0; i < university.getUniversityStudents().length; i++) {
-                        if(university.getUniversityStudents()[i]!=null){
+                        if (university.getUniversityStudents()[i] != null) {
                             for (int j = 0; j < university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs().length; j++) {
-                                if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j]!=null){
-                                    if(university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)){
+                                if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j] != null) {
+                                    if (university.getUniversityStudents()[i].getArrayOfDepartmentsStudentToBelongs()[j].equals(f)) {
                                         student1s[i] = university.getUniversityStudents()[i];
                                     }
                                 }
@@ -692,6 +3413,9 @@ public class Main1 {
                         }
                     }
                     course = DataInput.getInt("Введіть курс: ");
+                    while (choose<0){
+                        course = DataInput.getInt("Введіть курс: ");
+                    }
 
                     Sorting.displayStudentsOfSpecifiedCourseSortedAlphabeticallyUsingBubbleSort(student1s, course);
                     break;
