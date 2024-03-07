@@ -7,12 +7,15 @@ public class Main1 {
         int maxSize = DataInput.getInt("Скiльки факультетiв матиме унiверситет?\n");
         University1 university = new University1(maxSize);
         int choose = DataInput.getInt("Оберiть дiю: ");
-        int ID = 0;
+        int ID = 23;
+
+        university.createFaculty("Інформатики", university);
+        university.createFaculty("Природничий", university);
+        university.createFaculty("Економічний", university);
 
         while (choose < 13) {
             switch (choose) {
                 case 1:
-
                     int count = DataInput.getInt("Скiльки хочете додати зараз?");
                     for (int i = 0; i < count; i++) {
                         String nameOfFaculty = DataInput.getString("Введiть назву факультету");
@@ -110,11 +113,17 @@ public class Main1 {
                                 }
                             }
                         }
+                        university.getUniversityFaculties()[nameFaculty].createDepartment("ІПЗ", "Інформатика", university);
+                        university.getUniversityFaculties()[nameFaculty].createDepartment("КН", "Інформатика", university);
+                        university.getUniversityFaculties()[nameFaculty].createDepartment("Екологія", "Природничий", university);
+                        university.getUniversityFaculties()[nameFaculty].createDepartment("Біологія", "Природничий", university);
+                        university.getUniversityFaculties()[nameFaculty].createDepartment("Маркетинг", "Економічний", university);
 
                         university.getUniversityFaculties()[nameFaculty].createDepartment(nameOfDepartment, nameOfFaculty, university);
                         for (int j = 0; j < university.getUniversityFaculties()[nameFaculty].getArrayOfDepartmentsOfFaculty().length; j++) {
                             if (university.getUniversityFaculties()[nameFaculty].getArrayOfDepartmentsOfFaculty()[j] != null) {
                                 university.addDepartmentsOfFacultyToUniversity(university.getUniversityFaculties()[nameFaculty].getArrayOfDepartmentsOfFaculty()[j]);
+
                             }
                         }
 
@@ -133,14 +142,14 @@ public class Main1 {
                             }
                         }
                     }
-
-                    System.out.println("Виводимо на екран усі кафедри університету");
-                    for (int i = 0; i < university.getUniversityDepartments().length; i++) {
-                        if (university.getUniversityDepartments()[i] != null) {
-                            System.out.println(university.getUniversityDepartments()[i].getNameOfDepartment());
-                        }
-                    }
-
+//
+//                    System.out.println("Виводимо на екран усі кафедри університету");
+//                    for (int i = 0; i < university.getUniversityDepartments().length; i++) {
+//                        if (university.getUniversityDepartments()[i] != null) {
+//                            System.out.println(university.getUniversityDepartments()[i].getNameOfDepartment());
+//                        }
+//                    }
+//
                     //додаємо кафедри факультету до кафедр університету
                     for (int i = 0; i < university.getUniversityFaculties().length; i++) {
                         if (university.getUniversityFaculties()[i] != null) {
@@ -152,20 +161,20 @@ public class Main1 {
 
                         }
                     }
-                    /**
-                     * ТЕСТИ
-                     */
-                    for (int i = 0; i < university.getUniversityFaculties().length; i++) {
-                        if (university.getUniversityFaculties()[i] != null) {
-                            System.out.println("Виводимо усі кафедри факультету");
-                            System.out.println("*" + university.getUniversityFaculties()[i].getNameOfFaculty());
-                            for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
-                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
-                                    System.out.println(university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment());
-                                }
-                            }
-                        }
-                    }
+//                    /**
+//                     * ТЕСТИ
+//                     */
+//                    for (int i = 0; i < university.getUniversityFaculties().length; i++) {
+//                        if (university.getUniversityFaculties()[i] != null) {
+//                            System.out.println("Виводимо усі кафедри факультету");
+//                            System.out.println("*" + university.getUniversityFaculties()[i].getNameOfFaculty());
+//                            for (int j = 0; j < university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty().length; j++) {
+//                                if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j] != null) {
+//                                    System.out.println(university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment());
+//                                }
+//                            }
+//                        }
+//                    }
 
 
                     break;
@@ -228,11 +237,34 @@ public class Main1 {
                     int countOdDepartments = DataInput.getInt("Введіть кількість кафедр, до яких належить студент: ");
 
 
+                    Student1 st1 = new Student1("Андрохіна Валерія Вікторівна", 19, "студент", 78, 2 , "Інформатики", 1, 0);
+                    Student1 st2 = new Student1("Ярош Олена Андріївна", 23, "студент", 91, 4 , "Економічний", 1, 1);
+                    Student1 st3 = new Student1("Баранова Аріна Семенівна", 22, "студент", 72, 3 , "Природничий", 1, 2);
+                    Student1 st4 = new Student1("Довбуш Олексій Олегович", 18, "студент", 70, 1 , "Економічний", 1, 3);
+                    Student1 st5 = new Student1("Руєва Дарія Микитівна", 23, "студент", 88, 4 , "Природничий", 1, 4);
+                    Student1 st6 = new Student1("Котельнікова Марія Андріївна", 17, "студент", 75, 1 , "Природничий", 1, 5);
+                    Student1 st7 = new Student1("Шевченко Ярослав Анатолійович", 19, "студент", 78, 2 , "Природничий", 1, 6);
+                    Student1 st8 = new Student1("Анісімова Олена Романівна", 22, "студент", 98, 4 , "Інформатики", 1, 7);
+                    Student1 st9 = new Student1("Дмитрюк Володимир Сергійович", 21, "студент", 81, 3 , "Економічний", 1, 8);
+                    Student1 st10 = new Student1("Гордій Олексій Валерійович", 17, "студент", 70, 1 , "Інформатики", 1, 9);
+                    Student1 st11 = new Student1("Савін Костянтин Олегович", 19, "студент", 92, 2 , "Природничий", 1, 10);
+                    Student1 st12 = new Student1("Савченко Валерія Артемівна", 17, "студент", 69, 1 , "Інформатики", 1, 11);
+                    Student1 st13 = new Student1("Позова Вікторія Вікторівна", 23, "студент", 86, 4 , "Економічний", 1, 12);
+                    Student1 st14 = new Student1("Носова Світлана Вікторівна", 19, "студент", 89, 2 , "Інформатики", 1, 13);
+                    Student1 st15 = new Student1("Бачинська Христина Василівна", 19, "студент", 73, 1 , "Природничий", 1, 14);
+                    Student1 st16 = new Student1("Лапаєва Марія Андріївна", 19, "студент", 79, 3 , "Економічний", 1, 15);
+                    Student1 st17 = new Student1("Самойлов Михайло Володимирович", 21, "студент", 85, 3 , "Економічний", 1, 16);
+                    Student1 st18 = new Student1("Андрієв Ярослав Олегович", 19, "студент", 92, 2 , "Природничий", 1, 17);
+                    Student1 st19 = new Student1("Биков Андрій Романович", 17, "студент", 69, 1 , "Інформатики", 1, 18);
+                    Student1 st20 = new Student1("Валуєва Вікторія Яківна", 23, "студент", 86, 3 , "Економічний", 1, 19);
+                    Student1 st21 = new Student1("Лозова Анастасія Євгенівна", 19, "студент", 89, 2 , "Економічний", 1, 20);
+                    Student1 st22 = new Student1("Бритова Єлизавета Сергіївна", 19, "студент", 73, 1 , "Природничий", 1, 21);
+                    Student1 st23 = new Student1("Омельникова Марія Андріївна", 19, "студент", 79, 3 , "Економічний", 1, 22);
+
                     /**
                      * * СТВОРЕННЯ ОБ'ЄКТА НАШОГО СТУДЕНТА
                      **/
                     Student1 student = new Student1(name, age, position, grade, course, studentFaculty, countOdDepartments, ID++);
-
 
                     //перевірка, щоб введена нами кількість кафедр вміщалася у кількість кафедр факультету
                     int freeSpace = 0;
@@ -263,12 +295,49 @@ public class Main1 {
                     //додаємо назви кафедр до масифу кафедр студента, до яких він належить
                     for (int i = 0; i < countOdDepartments; i++) {
                         String f = DataInput.getString("Введіть кафедру, до якої належить студент: ");
+                        String d1 = "Екологія";
+                        String d2 = "Біологія";
+                        String d3 = "ІПЗ";
+                        String d4 = "КН";
+                        String d5 = "Маркетинг";
+
+
                         boolean isBelongsTo = false;
                         while (!isBelongsTo) {
                             for (int j = 0; j < university.getUniversityDepartments().length; j++) {
                                 if (university.getUniversityDepartments()[j] != null) {
                                     if (f.equals(university.getUniversityDepartments()[j].getNameOfDepartment())) {
                                         student.getArrayOfDepartmentsStudentToBelongs()[i] = f;
+                                        st1.getArrayOfDepartmentsStudentToBelongs()[i] = d3;
+                                        st2.getArrayOfDepartmentsStudentToBelongs()[i] = d5;
+                                        st3.getArrayOfDepartmentsStudentToBelongs()[i] = d2;
+                                        st4.getArrayOfDepartmentsStudentToBelongs()[i] = d5;
+                                        st5.getArrayOfDepartmentsStudentToBelongs()[i] = d1;
+                                        st6.getArrayOfDepartmentsStudentToBelongs()[i] = d1;
+                                        st7.getArrayOfDepartmentsStudentToBelongs()[i] = d2;
+                                        st8.getArrayOfDepartmentsStudentToBelongs()[i] = d4;
+                                        st9.getArrayOfDepartmentsStudentToBelongs()[i] = d5;
+                                        st10.getArrayOfDepartmentsStudentToBelongs()[i] = d3;
+                                        st11.getArrayOfDepartmentsStudentToBelongs()[i] = d2;
+                                        st12.getArrayOfDepartmentsStudentToBelongs()[i] = d3;
+                                        st13.getArrayOfDepartmentsStudentToBelongs()[i] = d5;
+                                        st14.getArrayOfDepartmentsStudentToBelongs()[i] = d4;
+                                        st15.getArrayOfDepartmentsStudentToBelongs()[i] = d2;
+                                        st16.getArrayOfDepartmentsStudentToBelongs()[i] = d5;
+                                        st17.getArrayOfDepartmentsStudentToBelongs()[i] = d5;
+                                        st18.getArrayOfDepartmentsStudentToBelongs()[i] = d2;
+                                        st19.getArrayOfDepartmentsStudentToBelongs()[i] = d4;
+                                        st20.getArrayOfDepartmentsStudentToBelongs()[i] = d5;
+                                        st21.getArrayOfDepartmentsStudentToBelongs()[i] = d5;
+                                        st22.getArrayOfDepartmentsStudentToBelongs()[i] = d1;
+                                        st23.getArrayOfDepartmentsStudentToBelongs()[i] = d5;
+
+
+
+
+
+
+
                                         isBelongsTo = true;
                                         break;
                                     }
@@ -293,6 +362,31 @@ public class Main1 {
                                         if (student.getArrayOfDepartmentsStudentToBelongs()[k] != null) {
                                             if (university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].getNameOfDepartment().equals(student.getArrayOfDepartmentsStudentToBelongs()[k])) {
                                                 university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(student, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st1, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st2, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st3, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st4, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st5, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st6, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st7, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st8, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st9, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st10, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st11, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st12, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st13, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st14, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st15, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st16, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st17, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st18, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st19, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st20, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st21, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st22, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+                                                university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j].addStudentToDepartment(st23, university.getUniversityFaculties()[i].getArrayOfDepartmentsOfFaculty()[j]);
+
+
                                             }
 
                                         }
@@ -303,7 +397,7 @@ public class Main1 {
                     }
 
 
-                    System.out.println("Виводимо інфорамцію про доданого студента: ");
+                    System.out.println("Виводимо інфорамцію про доданого студента: " );
                     System.out.println(student);
                     System.out.println();
 
@@ -312,6 +406,32 @@ public class Main1 {
                         if (university.getUniversityFaculties()[k] != null) {
                             if (university.getUniversityFaculties()[k].getNameOfFaculty().equals(studentFaculty)) {
                                 university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(student);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st1);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st2);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st3);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st4);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st5);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st6);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st7);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st8);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st9);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st10);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st11);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st12);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st13);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st14);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st15);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st16);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st17);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st18);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st19);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st20);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st21);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st22);
+                                university.getUniversityFaculties()[k].addStudentsOfDepartmentToFaculty(st23);
+
+
+
                                 break;
                             }
                         }
@@ -322,19 +442,44 @@ public class Main1 {
                         if (university.getUniversityFaculties()[i] != null) {
                             if (university.getUniversityFaculties()[i].getNameOfFaculty().equals(studentFaculty)) {
                                 university.addStudentsOfFacultyToUniversity(student, university);
+                                university.addStudentsOfFacultyToUniversity(st1, university);
+                                university.addStudentsOfFacultyToUniversity(st2, university);
+                                university.addStudentsOfFacultyToUniversity(st3, university);
+                                university.addStudentsOfFacultyToUniversity(st4, university);
+                                university.addStudentsOfFacultyToUniversity(st5, university);
+                                university.addStudentsOfFacultyToUniversity(st6, university);
+                                university.addStudentsOfFacultyToUniversity(st7, university);
+                                university.addStudentsOfFacultyToUniversity(st8, university);
+                                university.addStudentsOfFacultyToUniversity(st9, university);
+                                university.addStudentsOfFacultyToUniversity(st10, university);
+                                university.addStudentsOfFacultyToUniversity(st11, university);
+                                university.addStudentsOfFacultyToUniversity(st12, university);
+                                university.addStudentsOfFacultyToUniversity(st13, university);
+                                university.addStudentsOfFacultyToUniversity(st14, university);
+                                university.addStudentsOfFacultyToUniversity(st15, university);
+                                university.addStudentsOfFacultyToUniversity(st16, university);
+                                university.addStudentsOfFacultyToUniversity(st17, university);
+                                university.addStudentsOfFacultyToUniversity(st18, university);
+                                university.addStudentsOfFacultyToUniversity(st19, university);
+                                university.addStudentsOfFacultyToUniversity(st20, university);
+                                university.addStudentsOfFacultyToUniversity(st21, university);
+                                university.addStudentsOfFacultyToUniversity(st22, university);
+                                university.addStudentsOfFacultyToUniversity(st23, university);
+
+
                                 break;
                             }
                         }
                     }
 
 
-                    System.out.println("Виводимо масив студентів факультету");
-                    for (int k = 0; k < university.getUniversityFaculties().length; k++) {
-                        if (university.getUniversityFaculties()[k] != null) {
-                            System.out.println(university.getUniversityFaculties()[k].getNameOfFaculty());
-                            System.out.println(Arrays.toString(university.getUniversityFaculties()[k].getStudentsOfFaculty()));
-                        }
-                    }
+//                    System.out.println("Виводимо масив студентів факультету" + "\n");
+//                    for (int k = 0; k < university.getUniversityFaculties().length; k++) {
+//                        if (university.getUniversityFaculties()[k] != null) {
+//                            System.out.println(university.getUniversityFaculties()[k].getNameOfFaculty());
+//                            System.out.println(Arrays.toString(university.getUniversityFaculties()[k].getStudentsOfFaculty()) + "\n");
+//                        }
+//                    }
                     System.out.println("Виводимо масив студентів університету: ");
                     System.out.println(Arrays.toString(university.getUniversityStudents()) + "\n");
                     break;

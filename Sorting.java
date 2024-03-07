@@ -44,14 +44,6 @@ public class Sorting {
         }
     }
 
-
-    public static void printStudentsByCourse(Student1[] students) {
-        System.out.println("Студенти відсортовані за курсами:");
-        for (Student1 student : students) {
-            System.out.println("Ім'я: " + student.getName() + ", Курс: " + student.getCourse() + ", Середній бал: " + student.getAverageGrade());
-        }
-    }
-
     //сортування 2
     public static void displayStudentsSortedAlphabeticallyUsingBubbleSort(Student1[] students) {
         int n = students.length;

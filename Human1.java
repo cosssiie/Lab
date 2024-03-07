@@ -119,7 +119,7 @@ class Student1 extends Human1 {
 
     @Override
     public String toString() {
-        return "Позиція: " + getPosition() + "\n" +
+        return "\nПозиція: " + getPosition() + "\n" +
                 "Ім'я: " + getName() + "\n" +
                 "Курс: " + getCourse() + "\n" +
                 "Вік студента: " + getAge() + "\n" +
