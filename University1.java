@@ -291,17 +291,23 @@ public class University1 {
                     break;
                 }
             }
-            // просто для краси структури масиву прибираємо пробіл з null посиланням
-            // методом зміщення всіх елементів масиву на 1, починаючи цикл з місця null
-            for (int j = i; j < universityLecturers.length - 1; j++) {
-                universityLecturers[j] = universityLecturers[j + 1];
-
-            }
-            universityLecturers[universityLecturers.length - 1] = null;
-            break;
         }
+
+        if (lecturer1 == null) {
+            System.out.println("Не знайдено такого викладача");
+        } else {
+            // Shift elements to fill the gap
+            for (int j = 0; j < universityLecturers.length - 1; j++) {
+                if (universityLecturers[j] == null) {
+                    universityLecturers[j] = universityLecturers[j + 1];
+                    universityLecturers[j + 1] = null;
+                }
+            }
+        }
+
         return lecturer1;
     }
+
 
 
     private static boolean containsStudent(Student1[] students, Student1 target) {
